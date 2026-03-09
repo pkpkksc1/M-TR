@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 실시간 통역 mobile verM1</title>
+<title>AI 실시간 통역 mobile verM2</title>
 
 <style>
 body{
@@ -25,7 +25,6 @@ body{
 #title{
   font-size:18px;
   font-weight:bold;
-  color:#fff;
 }
 
 #version{
@@ -100,7 +99,7 @@ body{
 
 <div id="header">
   <div id="title">
-    🎤 AI 실시간 통역 <span id="version">verM1</span>
+    🎤 AI 실시간 통역 <span id="version">verM2</span>
   </div>
 
   <div id="status">🟢 대기중</div>
@@ -139,29 +138,33 @@ function splitSentence(text){
   return text;
 }
 
+function getSpeechClass(){
+  return window.SpeechRecognition || window.webkitSpeechRecognition;
+}
+
 function start(){
   if(running) return;
 
-  const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const SpeechRecognitionClass = getSpeechClass();
+
   if(!SpeechRecognitionClass){
-    alert("이 브라우저에서는 음성 인식을 지원하지 않아요.");
+    document.getElementById("status").innerText = "🚫 이 모바일 브라우저는 음성 인식을 지원하지 않아요";
     return;
   }
 
   running = true;
-  document.getElementById("status").innerText = "🔴 통역중";
+  document.getElementById("status").innerText = "🎤 듣는 중";
 
   recognition = new SpeechRecognitionClass();
   recognition.lang = "zh-CN";
-  recognition.continuous = true;
+
+  /* 모바일은 continuous보다 단발 재시작이 더 안정적인 경우가 많음 */
+  recognition.continuous = false;
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
-  recognition.start();
-
   recognition.onresult = function(event){
-    let sentence = event.results[event.results.length - 1][0].transcript;
-
+    let sentence = event.results[0][0].transcript;
     sentence = cleanText(sentence);
 
     if(sentence.length < MIN_SENTENCE_LENGTH) return;
@@ -172,17 +175,51 @@ function start(){
     processQueue();
   };
 
+  recognition.onstart = function(){
+    document.getElementById("status").innerText = "🎤 듣는 중";
+  };
+
   recognition.onend = function(){
     if(running){
-      try{
-        recognition.start();
-      }catch(e){}
+      setTimeout(() => {
+        try{
+          recognition.start();
+        }catch(e){}
+      }, 250);
+    }else{
+      document.getElementById("status").innerText = "🟢 대기중";
     }
   };
 
-  recognition.onerror = function(){
-    // 모바일에서는 상태 문구 과하게 바꾸지 않음
+  recognition.onerror = function(e){
+    console.log("speech error:", e.error);
+
+    if(e.error === "not-allowed"){
+      document.getElementById("status").innerText = "🚫 마이크 권한 필요";
+      running = false;
+      return;
+    }
+
+    if(e.error === "audio-capture"){
+      document.getElementById("status").innerText = "🎙️ 마이크 확인 필요";
+      running = false;
+      return;
+    }
+
+    if(e.error === "no-speech"){
+      document.getElementById("status").innerText = "🎤 다시 듣는 중";
+      return;
+    }
+
+    document.getElementById("status").innerText = "🟡 다시 시도중";
   };
+
+  try{
+    recognition.start();
+  }catch(e){
+    document.getElementById("status").innerText = "🚫 시작 실패";
+    running = false;
+  }
 }
 
 function stop(){
@@ -202,6 +239,8 @@ async function processQueue(){
   if(queue.length === 0) return;
 
   translating = true;
+  document.getElementById("status").innerText = "⏳ 번역중";
+
   const text = queue.shift();
 
   try{
@@ -221,6 +260,13 @@ async function processQueue(){
   }
 
   translating = false;
+
+  if(running){
+    document.getElementById("status").innerText = "🎤 듣는 중";
+  }else{
+    document.getElementById("status").innerText = "🟢 대기중";
+  }
+
   processQueue();
 }
 
