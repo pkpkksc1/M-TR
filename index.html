@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 통역 mobile verM5</title>
+<title>AI 통역 mobile verM6</title>
 
 <style>
 body{
@@ -91,7 +91,7 @@ body{
 
 <div id="header">
   <div id="title">
-    🎤 AI 통역 <span id="version">verM5</span>
+    🎤 AI 통역 <span id="version">verM6</span>
   </div>
 
   <div id="status">대기중</div>
@@ -110,7 +110,7 @@ let busy = false;
 let lastSentence = "";
 
 const MAX_SUBTITLES = 4;
-const MIN_SENTENCE_LENGTH = 5;
+const MIN_SENTENCE_LENGTH = 2;
 
 function setStatus(text){
   document.getElementById("status").innerText = text;
@@ -159,6 +159,8 @@ function listenOnce(){
     let sentence = event.results[0][0].transcript;
     sentence = cleanText(sentence);
 
+    setStatus("인식됨: " + sentence);
+
     if(sentence.length < MIN_SENTENCE_LENGTH){
       setStatus("너무 짧음");
       return;
@@ -174,6 +176,8 @@ function listenOnce(){
   };
 
   recognition.onerror = function(e){
+    console.log("speech error:", e.error);
+
     if(e.error === "not-allowed"){
       setStatus("마이크 권한 필요");
       return;
@@ -215,13 +219,14 @@ async function translateAndShow(text){
     translated = splitSentence(translated);
     translated = cleanText(translated);
 
-    if(translated.length >= 2){
+    if(translated.length >= 1){
       addSubtitle(translated);
       setStatus("완료");
     }else{
-      setStatus("대기중");
+      setStatus("번역 결과 없음");
     }
   }catch(e){
+    console.log("translate error:", e);
     addSubtitle("번역 오류");
     setStatus("번역 실패");
   }
