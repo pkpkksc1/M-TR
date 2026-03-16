@@ -1,756 +1,432 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>수저우 추천 아파트 위치도</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>수저우 추천 아파트 위치도</title>
 
-    body {
-      margin: 0;
-      font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-      background: #f4f6fb;
-      color: #1f2937;
-    }
+<style>
 
-    .topbar {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+*{box-sizing:border-box}
 
-    .topbar h1 {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1.35;
-    }
+body{
+margin:0;
+font-family:Arial,"Noto Sans KR",sans-serif;
+background:#f4f6fb;
+color:#1f2937;
+}
 
-    .wrap {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 16px;
-      padding: 16px;
-    }
+.topbar{
+background:#fff;
+border-bottom:1px solid #e5e7eb;
+padding:18px;
+position:sticky;
+top:0;
+}
 
-    .panel {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 18px;
-      overflow: hidden;
-    }
+.topbar h1{
+margin:0;
+font-size:22px;
+}
 
-    .map-box {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #edf2ff;
-    }
+.wrap{
+display:grid;
+grid-template-columns:1.4fr 1fr;
+gap:16px;
+padding:16px;
+}
 
-    .map-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
+.panel{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:16px;
+overflow:hidden;
+}
 
-    #markerLayer {
-      position: absolute;
-      inset: 0;
-    }
+.map-box{
+position:relative;
+width:100%;
+aspect-ratio:16/9;
+}
 
-    .marker {
-      position: absolute;
-      transform: translate(-50%, -100%);
-      border: 0;
-      background: #ef4444;
-      color: #fff;
-      border-radius: 999px;
-      padding: 6px 8px;
-      font-size: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 8px 20px rgba(0,0,0,.15);
-      border: 2px solid #fff;
-      line-height: 1.2;
-    }
+.map-box img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
 
-    .marker.active {
-      background: #2563eb;
-    }
+#markerLayer{
+position:absolute;
+inset:0;
+}
 
-    .side {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+.marker{
+position:absolute;
+transform:translate(-50%,-100%);
+background:#ef4444;
+color:#fff;
+border-radius:999px;
+padding:6px 8px;
+font-size:10px;
+font-weight:700;
+border:2px solid #fff;
+cursor:pointer;
+}
 
-    .section {
-      padding: 16px;
-    }
+.marker.active{
+background:#2563eb;
+}
 
-    .section h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
-      line-height: 1.35;
-    }
+.section{
+padding:16px;
+}
 
-    .empty {
-      padding: 14px;
-      background: #f8fafc;
-      border-radius: 12px;
-      color: #6b7280;
-      font-size: 13px;
-    }
+.section h2{
+margin:0 0 12px;
+font-size:18px;
+}
 
-    .community-card h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      line-height: 1.4;
-    }
+.empty{
+padding:12px;
+background:#f8fafc;
+border-radius:10px;
+font-size:13px;
+color:#6b7280;
+}
 
-    .name-cn {
-      display: inline-block;
-      padding: 4px 8px;
-      font-size: 11px;
-      border-radius: 999px;
-      background: #dbeafe;
-      color: #1d4ed8;
-      vertical-align: middle;
-    }
+.community-card h3{
+margin:0 0 10px;
+font-size:18px;
+display:flex;
+align-items:center;
+gap:8px;
+flex-wrap:wrap;
+}
 
-    .copy-btn {
-      border: 0;
-      background: #2563eb;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      line-height: 1;
-      white-space: nowrap;
-    }
+.name-cn{
+background:#dbeafe;
+color:#1d4ed8;
+padding:4px 8px;
+border-radius:999px;
+font-size:11px;
+}
 
-    .copy-btn.copied {
-      background: #16a34a;
-    }
+.copy-btn{
+border:0;
+background:#2563eb;
+color:#fff;
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+cursor:pointer;
+}
 
-    .note {
-      color: #4b5563;
-      margin-bottom: 10px;
-      line-height: 1.55;
-      font-size: 13px;
-    }
+.meta-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:10px;
+}
 
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 6px;
-    }
+.meta-grid div{
+background:#f8fafc;
+border-radius:10px;
+padding:10px;
+font-size:13px;
+}
 
-    .meta-grid > div {
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+.community-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
 
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: end;
-      margin-bottom: 12px;
-    }
+.community-item{
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:12px;
+cursor:pointer;
+}
 
-    .toolbar label {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 12px;
-      color: #374151;
-    }
+.community-item.active{
+border-color:#2563eb;
+background:#eff6ff;
+}
 
-    .toolbar input {
-      width: 110px;
-      padding: 9px 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      font-size: 13px;
-    }
+.community-item strong{
+display:block;
+font-size:15px;
+margin-bottom:4px;
+}
 
-    .toolbar button {
-      border: 0;
-      background: #111827;
-      color: #fff;
-      padding: 9px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 12px;
-    }
+.community-item span{
+font-size:12px;
+color:#6b7280;
+}
 
-    .listing-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+@media(max-width:1000px){
+.wrap{grid-template-columns:1fr}
+}
 
-    .listing-card {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 12px;
-      background: #fff;
-    }
-
-    .listing-title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .listing-card h4 {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.4;
-      flex: 1;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 6px;
-      font-size: 13px;
-      color: #374151;
-      line-height: 1.5;
-    }
-
-    .small {
-      color: #6b7280;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .community-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .community-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 12px;
-      cursor: pointer;
-      background: #fff;
-    }
-
-    .community-item.active {
-      border-color: #2563eb;
-      background: #eff6ff;
-    }
-
-    .community-item strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    .community-item span {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 1100px) {
-      .wrap {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .meta-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .toolbar input {
-        width: 100%;
-      }
-
-      .listing-title-row {
-        align-items: flex-start;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <header class="topbar">
-    <h1>수저우 추천 아파트 위치도</h1>
-  </header>
 
-  <main class="wrap">
-    <section class="panel">
-      <div class="map-box">
-        <img src="./map.jpeg.PNG" alt="수저우 지도" />
-        <div id="markerLayer"></div>
-      </div>
-    </section>
+<header class="topbar">
+<h1>수저우 추천 아파트 위치도</h1>
+</header>
 
-    <section class="side">
-      <div class="panel section">
-        <h2>단지 정보</h2>
-        <div id="communityDetail" class="empty">지도에서 단지를 클릭해줘.</div>
-      </div>
+<main class="wrap">
 
-      <div class="panel section">
-        <h2>단지 목록</h2>
-        <div id="communityList" class="community-list"></div>
-      </div>
+<section class="panel">
+<div class="map-box">
 
-      <div class="panel section">
-        <h2>매물 리스트</h2>
+<img src="./map.jpeg.PNG">
 
-        <div class="toolbar">
-          <label>
-            최소 월세
-            <input id="minPrice" type="number" value="15000" />
-          </label>
-          <label>
-            최대 월세
-            <input id="maxPrice" type="number" value="18000" />
-          </label>
-          <button id="applyBtn">필터 적용</button>
-        </div>
+<div id="markerLayer"></div>
 
-        <div id="listingInfo" class="small">단지를 선택하면 해당 단지 매물을 보여준다.</div>
-        <div id="listingList" class="listing-list"></div>
-      </div>
-    </section>
-  </main>
+</div>
+</section>
 
-  <script>
-    const COMMUNITIES = [
-      {
-        id: "linglongwan",
-        nameKo: "링롱완",
-        nameCn: "玲珑湾",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "16,000~17,500 RMB",
-        rentRange: "15000~18000 RMB",
-        type: "주재원 선호",
-        size: "120~180㎡",
-        rooms: "2~3룸",
-        x: 22,
-        y: 28,
-        note: "금계호 서쪽 라인. 외국인 거주 수요가 높은 편으로 많이 언급되는 단지.",
-        listings: [
-          {
-            title: "玲珑湾 3室2厅",
-            price: 16000,
-            area: "145㎡",
-            rooms: "3室2厅",
-            floor: "중층",
-            source: "고정 저장 데이터"
-          },
-          {
-            title: "玲珑湾 湖景房",
-            price: 17500,
-            area: "158㎡",
-            rooms: "3室2厅",
-            floor: "고층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "tianyu",
-        nameKo: "천위",
-        nameCn: "天域",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "16,800~18,500 RMB",
-        rentRange: "15000~20000 RMB",
-        type: "고급 가족형",
-        size: "150~200㎡",
-        rooms: "3~4룸",
-        x: 10,
-        y: 42,
-        note: "금계호 남서쪽 라인. 가족 단위 주거로 많이 보는 타입.",
-        listings: [
-          {
-            title: "天域 精装3房",
-            price: 16800,
-            area: "160㎡",
-            rooms: "3室2厅",
-            floor: "중고층",
-            source: "고정 저장 데이터"
-          },
-          {
-            title: "天域 大户型",
-            price: 18500,
-            area: "178㎡",
-            rooms: "4室2厅",
-            floor: "중층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "marina-cove",
-        nameKo: "마리나 코브",
-        nameCn: "水巷邻里",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "17,000 RMB",
-        rentRange: "16000~18000 RMB",
-        type: "주재원 선호",
-        size: "130~160㎡",
-        rooms: "3룸",
-        x: 28,
-        y: 76,
-        note: "금계호 남서쪽. 호수 접근성, 생활권 균형이 좋은 편.",
-        listings: [
-          {
-            title: "水巷邻里 3室2厅",
-            price: 17000,
-            area: "144㎡",
-            rooms: "3室2厅",
-            floor: "중층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "yiheyuanjing",
-        nameKo: "이허위안징",
-        nameCn: "颐和源璟",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "17,800 RMB",
-        rentRange: "15000~18000 RMB",
-        type: "국제학교 접근",
-        size: "120~160㎡",
-        rooms: "2~3룸",
-        x: 70,
-        y: 53,
-        note: "학교, 상업시설 쪽 접근성이 괜찮은 편으로 보는 단지.",
-        listings: [
-          {
-            title: "颐和源璟 花园洋房",
-            price: 17800,
-            area: "139㎡",
-            rooms: "3室2厅",
-            floor: "저층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "lvyunchenglu",
-        nameKo: "뤼청윈루",
-        nameCn: "绿城云庐",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "18,000 RMB",
-        rentRange: "16000~20000 RMB",
-        type: "신축 고급",
-        size: "130~170㎡",
-        rooms: "3룸",
-        x: 86,
-        y: 56,
-        note: "동쪽 라인의 고급 주거 단지로 넣어둔 버전.",
-        listings: [
-          {
-            title: "绿城云庐 精装3房",
-            price: 18000,
-            area: "143㎡",
-            rooms: "3室2厅",
-            floor: "고층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "haiheyunting",
-        nameKo: "하이허윈팅",
-        nameCn: "海和云庭",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "15,800 RMB",
-        rentRange: "15000~18000 RMB",
-        type: "신축",
-        size: "120~150㎡",
-        rooms: "2~3룸",
-        x: 75,
-        y: 82,
-        note: "남동쪽 생활권. 신축 계열로 정리한 버전.",
-        listings: [
-          {
-            title: "海和云庭 3室2厅",
-            price: 15800,
-            area: "128㎡",
-            rooms: "3室2厅",
-            floor: "중층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "linxiyayuan",
-        nameKo: "린시야위안",
-        nameCn: "林溪雅苑",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "16,500 RMB",
-        rentRange: "15000~17000 RMB",
-        type: "가족 거주형",
-        size: "120~150㎡",
-        rooms: "3룸",
-        x: 82,
-        y: 73,
-        note: "남동쪽 거주지 라인.",
-        listings: [
-          {
-            title: "林溪雅苑 3房",
-            price: 16500,
-            area: "136㎡",
-            rooms: "3室2厅",
-            floor: "중층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "ifc",
-        nameKo: "국금센터 인근",
-        nameCn: "苏州国际金融中心",
-        district: "금계호 핵심권",
-        rentAvg: "17,800 RMB",
-        rentRange: "17000~22000 RMB",
-        type: "핵심 상권",
-        size: "100~160㎡",
-        rooms: "2~3룸",
-        x: 46,
-        y: 35,
-        note: "상업 중심지 인근. 주거보다 핵심권 참고용으로 넣은 버전.",
-        listings: [
-          {
-            title: "国金中心附近 2房",
-            price: 17800,
-            area: "110㎡",
-            rooms: "2室2厅",
-            floor: "고층",
-            source: "고정 저장 데이터"
-          }
-        ]
-      },
-      {
-        id: "vanke-langshi",
-        nameKo: "완커 랑서",
-        nameCn: "万科朗拾",
-        district: "수저우 공업원구 SIP",
-        rentAvg: "21,617 元/월",
-        rentRange: "17000~21000 RMB",
-        type: "신축 고급단지",
-        size: "186~258㎡",
-        rooms: "4룸",
-        x: 39,
-        y: 26,
-        note: "신축 대형 평형 위주 단지. 월세대가 높은 편.",
-        listings: [
-          {
-            title: "万科朗拾 4室2厅",
-            price: 21000,
-            area: "258㎡",
-            rooms: "4室2厅",
-            floor: "중층",
-            source: "사용자 제공 화면 기준"
-          },
-          {
-            title: "万科朗拾 精装4房",
-            price: 17000,
-            area: "186㎡",
-            rooms: "4室2厅",
-            floor: "고층",
-            source: "사용자 제공 화면 기준"
-          }
-        ]
-      }
-    ];
+<section class="panel section">
 
-    const markerLayer = document.getElementById("markerLayer");
-    const communityDetail = document.getElementById("communityDetail");
-    const communityList = document.getElementById("communityList");
-    const listingList = document.getElementById("listingList");
-    const listingInfo = document.getElementById("listingInfo");
-    const minPriceInput = document.getElementById("minPrice");
-    const maxPriceInput = document.getElementById("maxPrice");
-    const applyBtn = document.getElementById("applyBtn");
+<h2>단지 정보</h2>
 
-    let selectedId = null;
+<div id="communityDetail" class="empty">
+지도에서 단지를 클릭해줘.
+</div>
 
-    function priceText(v) {
-      return Number(v).toLocaleString("ko-KR") + " RMB";
-    }
+<h2 style="margin-top:20px">단지 목록</h2>
 
-    function getSelectedCommunity() {
-      return COMMUNITIES.find(c => c.id === selectedId) || null;
-    }
+<div id="communityList" class="community-list"></div>
 
-    function getFilteredListings(community) {
-      const min = Number(minPriceInput.value || 0);
-      const max = Number(maxPriceInput.value || 99999999);
+</section>
 
-      return (community.listings || []).filter(item => {
-        const p = Number(item.price || 0);
-        return p >= min && p <= max;
-      });
-    }
+</main>
 
-    async function copyText(text, buttonEl) {
-      try {
-        await navigator.clipboard.writeText(text);
-        const original = buttonEl.textContent;
-        buttonEl.textContent = "복사됨";
-        buttonEl.classList.add("copied");
-        setTimeout(() => {
-          buttonEl.textContent = original;
-          buttonEl.classList.remove("copied");
-        }, 1200);
-      } catch (e) {
-        alert("복사에 실패했어.");
-      }
-    }
+<script>
 
-    function renderCommunityDetail(community) {
-      communityDetail.className = "";
-      communityDetail.innerHTML = `
-        <div class="community-card">
-          <h3>
-            ${community.nameKo}
-            <span class="name-cn">${community.nameCn}</span>
-            <button class="copy-btn" id="copyCnBtn">복사</button>
-          </h3>
-          <div class="note">${community.note}</div>
+const COMMUNITIES=[
 
-          <div class="meta-grid">
-            <div><strong>지역</strong><br>${community.district}</div>
-            <div><strong>평균월세</strong><br>${community.rentAvg || "-"}</div>
-            <div><strong>월세범위</strong><br>${community.rentRange}</div>
-            <div><strong>평형</strong><br>${community.size}</div>
-            <div><strong>구조</strong><br>${community.rooms}</div>
-            <div><strong>유형</strong><br>${community.type || "-"}</div>
-          </div>
-        </div>
-      `;
+{
+id:"linglongwan",
+nameKo:"링롱완",
+nameCn:"玲珑湾",
+district:"수저우 공업원구 SIP",
+rentRange:"15000~18000 RMB",
+size:"120~180㎡",
+rooms:"2~3룸",
+x:22,
+y:28,
+note:"금계호 서쪽 주재원 선호 단지."
+},
 
-      const copyBtn = document.getElementById("copyCnBtn");
-      copyBtn.addEventListener("click", () => copyText(community.nameCn, copyBtn));
-    }
+{
+id:"tianyu",
+nameKo:"천위",
+nameCn:"天域",
+district:"수저우 공업원구 SIP",
+rentRange:"15000~20000 RMB",
+size:"150~200㎡",
+rooms:"3~4룸",
+x:10,
+y:42,
+note:"가족 거주 선호 단지."
+},
 
-    function renderListings(community) {
-      const items = getFilteredListings(community);
-      listingList.innerHTML = "";
+{
+id:"marina",
+nameKo:"마리나 코브",
+nameCn:"水巷邻里",
+district:"수저우 공업원구 SIP",
+rentRange:"16000~18000 RMB",
+size:"130~160㎡",
+rooms:"3룸",
+x:28,
+y:76,
+note:"호수 접근성 좋은 단지."
+},
 
-      if (!items.length) {
-        listingInfo.textContent = "현재 필터 조건에 맞는 저장 매물이 없다.";
-        listingList.innerHTML = `<div class="empty">조건에 맞는 매물이 없다.</div>`;
-        return;
-      }
+{
+id:"yiheyuanjing",
+nameKo:"이허위안징",
+nameCn:"颐和源璟",
+district:"수저우 공업원구 SIP",
+rentRange:"15000~18000 RMB",
+size:"120~160㎡",
+rooms:"2~3룸",
+x:70,
+y:53,
+note:"생활 편의시설 접근 좋음."
+},
 
-      listingInfo.textContent = `${community.nameKo} 기준 ${items.length}개 저장 매물`;
+{
+id:"haiheyunting",
+nameKo:"하이허윈팅",
+nameCn:"海和云庭",
+district:"수저우 공업원구 SIP",
+rentRange:"15000~18000 RMB",
+size:"120~150㎡",
+rooms:"2~3룸",
+x:75,
+y:82,
+note:"신축 아파트."
+},
 
-      items.forEach((item, index) => {
-        const el = document.createElement("div");
-        el.className = "listing-card";
-        el.innerHTML = `
-          <div class="listing-title-row">
-            <h4>${item.title}</h4>
-            <button class="copy-btn listing-copy-btn" data-index="${index}">복사</button>
-          </div>
-          <div class="row">
-            <span><strong>월세:</strong> ${priceText(item.price)}</span>
-            <span><strong>면적:</strong> ${item.area}</span>
-            <span><strong>구조:</strong> ${item.rooms}</span>
-            <span><strong>층수:</strong> ${item.floor}</span>
-          </div>
-          <div class="row">
-            <span><strong>데이터:</strong> ${item.source}</span>
-          </div>
-        `;
-        listingList.appendChild(el);
-      });
+{
+id:"vanke",
+nameKo:"완커 랑서",
+nameCn:"万科朗拾",
+district:"수저우 공업원구 SIP",
+rentRange:"17000~21000 RMB",
+size:"186~258㎡",
+rooms:"4룸",
+x:40,
+y:30,
+note:"2024년 신축 고급 단지."
+}
 
-      listingList.querySelectorAll(".listing-copy-btn").forEach((btn, index) => {
-        btn.addEventListener("click", () => copyText(items[index].title, btn));
-      });
-    }
+]
 
-    function setActiveUI() {
-      document.querySelectorAll(".marker").forEach(el => {
-        el.classList.toggle("active", el.dataset.id === selectedId);
-      });
+const markerLayer=document.getElementById("markerLayer")
+const communityDetail=document.getElementById("communityDetail")
+const communityList=document.getElementById("communityList")
 
-      document.querySelectorAll(".community-item").forEach(el => {
-        el.classList.toggle("active", el.dataset.id === selectedId);
-      });
-    }
+let selectedId=null
 
-    function selectCommunity(id) {
-      selectedId = id;
-      const community = getSelectedCommunity();
-      if (!community) return;
-      setActiveUI();
-      renderCommunityDetail(community);
-      renderListings(community);
-    }
+function copyText(text,btn){
 
-    function createMarkers() {
-      markerLayer.innerHTML = "";
-      COMMUNITIES.forEach(community => {
-        const btn = document.createElement("button");
-        btn.className = "marker";
-        btn.dataset.id = community.id;
-        btn.textContent = community.nameKo;
-        btn.style.left = community.x + "%";
-        btn.style.top = community.y + "%";
-        btn.addEventListener("click", () => selectCommunity(community.id));
-        markerLayer.appendChild(btn);
-      });
-    }
+navigator.clipboard.writeText(text)
 
-    function createCommunityList() {
-      communityList.innerHTML = "";
-      COMMUNITIES.forEach(community => {
-        const item = document.createElement("div");
-        item.className = "community-item";
-        item.dataset.id = community.id;
-        item.innerHTML = `
-          <strong>${community.nameKo} (${community.nameCn})</strong>
-          <span>${community.district} · ${community.rentRange}</span>
-        `;
-        item.addEventListener("click", () => selectCommunity(community.id));
-        communityList.appendChild(item);
-      });
-    }
+btn.innerText="복사됨"
 
-    applyBtn.addEventListener("click", () => {
-      const community = getSelectedCommunity();
-      if (community) renderListings(community);
-    });
+setTimeout(()=>{btn.innerText="복사"},1000)
 
-    createMarkers();
-    createCommunityList();
-    selectCommunity(COMMUNITIES[0].id);
-  </script>
+}
+
+function renderDetail(c){
+
+communityDetail.className=""
+
+communityDetail.innerHTML=`
+
+<div class="community-card">
+
+<h3>
+
+${c.nameKo}
+
+<span class="name-cn">${c.nameCn}</span>
+
+<button class="copy-btn" id="copyBtn">복사</button>
+
+</h3>
+
+<div style="font-size:13px;color:#4b5563;margin-bottom:10px">
+${c.note}
+</div>
+
+<div class="meta-grid">
+
+<div><strong>지역</strong><br>${c.district}</div>
+
+<div><strong>월세범위</strong><br>${c.rentRange}</div>
+
+<div><strong>평형</strong><br>${c.size}</div>
+
+<div><strong>구조</strong><br>${c.rooms}</div>
+
+</div>
+
+</div>
+`
+
+document.getElementById("copyBtn").onclick=()=>copyText(c.nameCn,document.getElementById("copyBtn"))
+
+}
+
+function setActive(){
+
+document.querySelectorAll(".marker").forEach(el=>{
+el.classList.toggle("active",el.dataset.id===selectedId)
+})
+
+document.querySelectorAll(".community-item").forEach(el=>{
+el.classList.toggle("active",el.dataset.id===selectedId)
+})
+
+}
+
+function selectCommunity(id){
+
+selectedId=id
+
+const c=COMMUNITIES.find(v=>v.id===id)
+
+setActive()
+
+renderDetail(c)
+
+}
+
+function createMarkers(){
+
+COMMUNITIES.forEach(c=>{
+
+const btn=document.createElement("button")
+
+btn.className="marker"
+
+btn.dataset.id=c.id
+
+btn.innerText=c.nameKo
+
+btn.style.left=c.x+"%"
+
+btn.style.top=c.y+"%"
+
+btn.onclick=()=>selectCommunity(c.id)
+
+markerLayer.appendChild(btn)
+
+})
+
+}
+
+function createList(){
+
+COMMUNITIES.forEach(c=>{
+
+const el=document.createElement("div")
+
+el.className="community-item"
+
+el.dataset.id=c.id
+
+el.innerHTML=`
+
+<strong>${c.nameKo} (${c.nameCn})</strong>
+
+<span>${c.district} · ${c.rentRange}</span>
+
+`
+
+el.onclick=()=>selectCommunity(c.id)
+
+communityList.appendChild(el)
+
+})
+
+}
+
+createMarkers()
+
+createList()
+
+selectCommunity(COMMUNITIES[0].id)
+
+</script>
+
 </body>
 </html>
