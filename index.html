@@ -21,11 +21,13 @@ border-bottom:1px solid #e5e7eb;
 padding:18px;
 position:sticky;
 top:0;
+z-index:100;
 }
 
 .topbar h1{
 margin:0;
 font-size:22px;
+line-height:1.35;
 }
 
 .wrap{
@@ -74,6 +76,7 @@ border:2px solid #fff;
 cursor:pointer;
 line-height:1.2;
 white-space:nowrap;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
 .marker.active{
@@ -183,7 +186,6 @@ line-height:1.5;
 @media(max-width:1000px){
 .wrap{grid-template-columns:1fr}
 }
-
 </style>
 </head>
 
@@ -248,7 +250,7 @@ note:"가족 거주 선호 단지."
 },
 
 {
-id:"marina",
+id:"marina-cove",
 nameKo:"마리나 코브",
 nameCn:"水巷邻里",
 district:"수저우 공업원구 SIP",
@@ -274,6 +276,19 @@ note:"생활 편의시설 접근 좋음."
 },
 
 {
+id:"lvyunchenglu",
+nameKo:"뤼청윈루",
+nameCn:"绿城云庐",
+district:"수저우 공업원구 SIP",
+rentRange:"16000~20000 RMB",
+size:"130~170㎡",
+rooms:"3룸",
+x:86,
+y:56,
+note:"동쪽 라인의 고급 주거 단지."
+},
+
+{
 id:"haiheyunting",
 nameKo:"하이허윈팅",
 nameCn:"海和云庭",
@@ -284,6 +299,19 @@ rooms:"2~3룸",
 x:75,
 y:82,
 note:"신축 아파트."
+},
+
+{
+id:"linxiyayuan",
+nameKo:"린시야위안",
+nameCn:"林溪雅苑",
+district:"수저우 공업원구 SIP",
+rentRange:"15000~17000 RMB",
+size:"120~150㎡",
+rooms:"3룸",
+x:82,
+y:73,
+note:"남동쪽 거주지 라인."
 },
 
 {
@@ -344,6 +372,7 @@ ${c.nameKo}
 <div><strong>평형</strong><br>${c.size}</div>
 <div><strong>구조</strong><br>${c.rooms}</div>
 </div>
+
 </div>
 `;
 
