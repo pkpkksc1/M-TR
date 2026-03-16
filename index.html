@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>수저우 주재원 아파트 지도</title>
+  <title>수저우 추천 아파트 위치도</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -137,6 +137,7 @@
       font-weight: 700;
       cursor: pointer;
       line-height: 1;
+      white-space: nowrap;
     }
 
     .copy-btn.copied {
@@ -349,6 +350,7 @@
         nameKo: "링롱완",
         nameCn: "玲珑湾",
         district: "수저우 공업원구 SIP",
+        rentAvg: "16,000~17,500 RMB",
         rentRange: "15000~18000 RMB",
         type: "주재원 선호",
         size: "120~180㎡",
@@ -380,6 +382,7 @@
         nameKo: "천위",
         nameCn: "天域",
         district: "수저우 공업원구 SIP",
+        rentAvg: "16,800~18,500 RMB",
         rentRange: "15000~20000 RMB",
         type: "고급 가족형",
         size: "150~200㎡",
@@ -411,6 +414,7 @@
         nameKo: "마리나 코브",
         nameCn: "水巷邻里",
         district: "수저우 공업원구 SIP",
+        rentAvg: "17,000 RMB",
         rentRange: "16000~18000 RMB",
         type: "주재원 선호",
         size: "130~160㎡",
@@ -434,6 +438,7 @@
         nameKo: "이허위안징",
         nameCn: "颐和源璟",
         district: "수저우 공업원구 SIP",
+        rentAvg: "17,800 RMB",
         rentRange: "15000~18000 RMB",
         type: "국제학교 접근",
         size: "120~160㎡",
@@ -457,6 +462,7 @@
         nameKo: "뤼청윈루",
         nameCn: "绿城云庐",
         district: "수저우 공업원구 SIP",
+        rentAvg: "18,000 RMB",
         rentRange: "16000~20000 RMB",
         type: "신축 고급",
         size: "130~170㎡",
@@ -480,6 +486,7 @@
         nameKo: "하이허윈팅",
         nameCn: "海和云庭",
         district: "수저우 공업원구 SIP",
+        rentAvg: "15,800 RMB",
         rentRange: "15000~18000 RMB",
         type: "신축",
         size: "120~150㎡",
@@ -503,6 +510,7 @@
         nameKo: "린시야위안",
         nameCn: "林溪雅苑",
         district: "수저우 공업원구 SIP",
+        rentAvg: "16,500 RMB",
         rentRange: "15000~17000 RMB",
         type: "가족 거주형",
         size: "120~150㎡",
@@ -526,6 +534,7 @@
         nameKo: "국금센터 인근",
         nameCn: "苏州国际金融中心",
         district: "금계호 핵심권",
+        rentAvg: "17,800 RMB",
         rentRange: "17000~22000 RMB",
         type: "핵심 상권",
         size: "100~160㎡",
@@ -541,6 +550,38 @@
             rooms: "2室2厅",
             floor: "고층",
             source: "고정 저장 데이터"
+          }
+        ]
+      },
+      {
+        id: "vanke-langshi",
+        nameKo: "완커 랑서",
+        nameCn: "万科朗拾",
+        district: "수저우 공업원구 SIP",
+        rentAvg: "21,617 元/월",
+        rentRange: "17000~21000 RMB",
+        type: "신축 고급단지",
+        size: "186~258㎡",
+        rooms: "4룸",
+        x: 39,
+        y: 26,
+        note: "신축 대형 평형 위주 단지. 월세대가 높은 편.",
+        listings: [
+          {
+            title: "万科朗拾 4室2厅",
+            price: 21000,
+            area: "258㎡",
+            rooms: "4室2厅",
+            floor: "중층",
+            source: "사용자 제공 화면 기준"
+          },
+          {
+            title: "万科朗拾 精装4房",
+            price: 17000,
+            area: "186㎡",
+            rooms: "4室2厅",
+            floor: "고층",
+            source: "사용자 제공 화면 기준"
           }
         ]
       }
@@ -603,9 +644,11 @@
 
           <div class="meta-grid">
             <div><strong>지역</strong><br>${community.district}</div>
-            <div><strong>월세대</strong><br>${community.rentRange}</div>
+            <div><strong>평균월세</strong><br>${community.rentAvg || "-"}</div>
+            <div><strong>월세범위</strong><br>${community.rentRange}</div>
             <div><strong>평형</strong><br>${community.size}</div>
             <div><strong>구조</strong><br>${community.rooms}</div>
+            <div><strong>유형</strong><br>${community.type || "-"}</div>
           </div>
         </div>
       `;
@@ -658,7 +701,7 @@
       });
 
       document.querySelectorAll(".community-item").forEach(el => {
-        el.classList.toggle("active", el.dataset.id ===selectedId);
+        el.classList.toggle("active", el.dataset.id === selectedId);
       });
     }
 
