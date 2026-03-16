@@ -6,7 +6,6 @@
 <title>수저우 추천 아파트 위치도</title>
 
 <style>
-
 *{box-sizing:border-box}
 
 body{
@@ -47,12 +46,14 @@ overflow:hidden;
 position:relative;
 width:100%;
 aspect-ratio:16/9;
+background:#edf2ff;
 }
 
 .map-box img{
 width:100%;
 height:100%;
 object-fit:contain;
+display:block;
 }
 
 #markerLayer{
@@ -71,6 +72,8 @@ font-size:10px;
 font-weight:700;
 border:2px solid #fff;
 cursor:pointer;
+line-height:1.2;
+white-space:nowrap;
 }
 
 .marker.active{
@@ -101,6 +104,7 @@ display:flex;
 align-items:center;
 gap:8px;
 flex-wrap:wrap;
+line-height:1.4;
 }
 
 .name-cn{
@@ -119,6 +123,14 @@ padding:6px 10px;
 border-radius:999px;
 font-size:11px;
 cursor:pointer;
+white-space:nowrap;
+}
+
+.note{
+font-size:13px;
+color:#4b5563;
+margin-bottom:10px;
+line-height:1.55;
 }
 
 .meta-grid{
@@ -133,6 +145,7 @@ background:#f8fafc;
 border-radius:10px;
 padding:10px;
 font-size:13px;
+line-height:1.5;
 }
 
 .community-list{
@@ -146,6 +159,7 @@ border:1px solid #e5e7eb;
 border-radius:12px;
 padding:12px;
 cursor:pointer;
+background:#fff;
 }
 
 .community-item.active{
@@ -157,11 +171,13 @@ background:#eff6ff;
 display:block;
 font-size:15px;
 margin-bottom:4px;
+line-height:1.4;
 }
 
 .community-item span{
 font-size:12px;
 color:#6b7280;
+line-height:1.5;
 }
 
 @media(max-width:1000px){
@@ -181,11 +197,8 @@ color:#6b7280;
 
 <section class="panel">
 <div class="map-box">
-
-<img src="./map.jpeg.PNG">
-
+<img src="./map.jpeg.PNG" alt="수저우 지도">
 <div id="markerLayer"></div>
-
 </div>
 </section>
 
@@ -206,7 +219,6 @@ color:#6b7280;
 </main>
 
 <script>
-
 const COMMUNITIES=[
 
 {
@@ -275,6 +287,19 @@ note:"신축 아파트."
 },
 
 {
+id:"ifc",
+nameKo:"국금센터 인근",
+nameCn:"苏州国际金融中心",
+district:"금계호 핵심권",
+rentRange:"17000~22000 RMB",
+size:"100~160㎡",
+rooms:"2~3룸",
+x:46,
+y:35,
+note:"금계호 핵심 상업 중심지. IFC 주변 주거 참고용."
+},
+
+{
 id:"vanke",
 nameKo:"완커 랑서",
 nameCn:"万科朗拾",
@@ -287,145 +312,91 @@ y:30,
 note:"2024년 신축 고급 단지."
 }
 
-]
+];
 
-const markerLayer=document.getElementById("markerLayer")
-const communityDetail=document.getElementById("communityDetail")
-const communityList=document.getElementById("communityList")
+const markerLayer=document.getElementById("markerLayer");
+const communityDetail=document.getElementById("communityDetail");
+const communityList=document.getElementById("communityList");
 
-let selectedId=null
+let selectedId=null;
 
 function copyText(text,btn){
-
-navigator.clipboard.writeText(text)
-
-btn.innerText="복사됨"
-
-setTimeout(()=>{btn.innerText="복사"},1000)
-
+navigator.clipboard.writeText(text);
+btn.innerText="복사됨";
+setTimeout(()=>{btn.innerText="복사"},1000);
 }
 
 function renderDetail(c){
-
-communityDetail.className=""
-
+communityDetail.className="";
 communityDetail.innerHTML=`
-
 <div class="community-card">
-
 <h3>
-
 ${c.nameKo}
-
 <span class="name-cn">${c.nameCn}</span>
-
 <button class="copy-btn" id="copyBtn">복사</button>
-
 </h3>
 
-<div style="font-size:13px;color:#4b5563;margin-bottom:10px">
-${c.note}
-</div>
+<div class="note">${c.note}</div>
 
 <div class="meta-grid">
-
 <div><strong>지역</strong><br>${c.district}</div>
-
 <div><strong>월세범위</strong><br>${c.rentRange}</div>
-
 <div><strong>평형</strong><br>${c.size}</div>
-
 <div><strong>구조</strong><br>${c.rooms}</div>
-
 </div>
-
 </div>
-`
+`;
 
-document.getElementById("copyBtn").onclick=()=>copyText(c.nameCn,document.getElementById("copyBtn"))
-
+document.getElementById("copyBtn").onclick=()=>copyText(c.nameCn,document.getElementById("copyBtn"));
 }
 
 function setActive(){
-
 document.querySelectorAll(".marker").forEach(el=>{
-el.classList.toggle("active",el.dataset.id===selectedId)
-})
+el.classList.toggle("active",el.dataset.id===selectedId);
+});
 
 document.querySelectorAll(".community-item").forEach(el=>{
-el.classList.toggle("active",el.dataset.id===selectedId)
-})
-
+el.classList.toggle("active",el.dataset.id===selectedId);
+});
 }
 
 function selectCommunity(id){
-
-selectedId=id
-
-const c=COMMUNITIES.find(v=>v.id===id)
-
-setActive()
-
-renderDetail(c)
-
+selectedId=id;
+const c=COMMUNITIES.find(v=>v.id===id);
+setActive();
+renderDetail(c);
 }
 
 function createMarkers(){
-
 COMMUNITIES.forEach(c=>{
-
-const btn=document.createElement("button")
-
-btn.className="marker"
-
-btn.dataset.id=c.id
-
-btn.innerText=c.nameKo
-
-btn.style.left=c.x+"%"
-
-btn.style.top=c.y+"%"
-
-btn.onclick=()=>selectCommunity(c.id)
-
-markerLayer.appendChild(btn)
-
-})
-
+const btn=document.createElement("button");
+btn.className="marker";
+btn.dataset.id=c.id;
+btn.innerText=c.nameKo;
+btn.style.left=c.x+"%";
+btn.style.top=c.y+"%";
+btn.onclick=()=>selectCommunity(c.id);
+markerLayer.appendChild(btn);
+});
 }
 
 function createList(){
-
 COMMUNITIES.forEach(c=>{
-
-const el=document.createElement("div")
-
-el.className="community-item"
-
-el.dataset.id=c.id
-
+const el=document.createElement("div");
+el.className="community-item";
+el.dataset.id=c.id;
 el.innerHTML=`
-
 <strong>${c.nameKo} (${c.nameCn})</strong>
-
 <span>${c.district} · ${c.rentRange}</span>
-
-`
-
-el.onclick=()=>selectCommunity(c.id)
-
-communityList.appendChild(el)
-
-})
-
+`;
+el.onclick=()=>selectCommunity(c.id);
+communityList.appendChild(el);
+});
 }
 
-createMarkers()
-
-createList()
-
-selectCommunity(COMMUNITIES[0].id)
-
+createMarkers();
+createList();
+selectCommunity(COMMUNITIES[0].id);
 </script>
 
 </body>
