@@ -28,7 +28,27 @@
       margin: 0;
       color: #6b7280;
       font-size: 14px;
+      line-height: 1.5;
     }
+
+    .quick-links {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .quick-link {
+      display: inline-block;
+      text-decoration: none;
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     .wrap {
       display: grid;
       grid-template-columns: 1.4fr 1fr;
@@ -101,10 +121,15 @@
     .community-card h3 {
       margin: 0 0 8px;
       font-size: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
     }
+
     .name-cn {
       display: inline-block;
-      margin-left: 8px;
       padding: 4px 8px;
       font-size: 12px;
       border-radius: 999px;
@@ -112,6 +137,22 @@
       color: #1d4ed8;
       vertical-align: middle;
     }
+
+    .copy-btn {
+      border: 0;
+      background: #2563eb;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-btn.copied {
+      background: #16a34a;
+    }
+
     .note {
       color: #4b5563;
       margin-bottom: 12px;
@@ -129,23 +170,6 @@
       padding: 10px 12px;
       font-size: 14px;
       line-height: 1.45;
-    }
-
-    .link-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .btn-link {
-      display: inline-block;
-      text-decoration: none;
-      background: #2563eb;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
     }
 
     .toolbar {
@@ -251,6 +275,12 @@
       .toolbar input {
         width: 100%;
       }
+      .quick-links {
+        flex-direction: column;
+      }
+      .quick-link {
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -258,6 +288,13 @@
   <header class="topbar">
     <h1>수저우 추천 아파트 위치도</h1>
     <p>실시간 연동 없이, 지금 기준으로 정리한 고정 데이터 버전이다. GitHub Pages에 바로 올릴 수 있다.</p>
+
+    <div class="quick-links">
+      <a class="quick-link" href="https://www.anjuke.com/" target="_blank" rel="noreferrer">Anjuke</a>
+      <a class="quick-link" href="https://fz.fang.com/" target="_blank" rel="noreferrer">Fang</a>
+      <a class="quick-link" href="https://bj.lianjia.com/" target="_blank" rel="noreferrer">Lianjia</a>
+      <a class="quick-link" href="https://bj.ke.com/" target="_blank" rel="noreferrer">Beike</a>
+    </div>
   </header>
 
   <main class="wrap">
@@ -314,7 +351,6 @@
         x: 22,
         y: 28,
         note: "금계호 서쪽 라인. 외국인 거주 수요가 높은 편으로 많이 언급되는 단지.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("玲珑湾 苏州"),
         listings: [
           {
             title: "玲珑湾 3室2厅",
@@ -348,7 +384,6 @@
         x: 10,
         y: 42,
         note: "금계호 남서쪽 라인. 가족 단위 주거로 많이 보는 타입.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("天域 苏州"),
         listings: [
           {
             title: "天域 精装3房",
@@ -382,7 +417,6 @@
         x: 28,
         y: 76,
         note: "금계호 남서쪽. 호수 접근성, 생활권 균형이 좋은 편.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("水巷邻里 苏州"),
         listings: [
           {
             title: "水巷邻里 3室2厅",
@@ -407,7 +441,6 @@
         x: 70,
         y: 53,
         note: "학교, 상업시설 쪽 접근성이 괜찮은 편으로 보는 단지.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("颐和源璟 苏州"),
         listings: [
           {
             title: "颐和源璟 花园洋房",
@@ -432,7 +465,6 @@
         x: 86,
         y: 56,
         note: "동쪽 라인의 고급 주거 단지로 넣어둔 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("绿城云庐 苏州"),
         listings: [
           {
             title: "绿城云庐 精装3房",
@@ -457,7 +489,6 @@
         x: 75,
         y: 82,
         note: "남동쪽 생활권. 신축 계열로 정리한 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("海和云庭 苏州"),
         listings: [
           {
             title: "海和云庭 3室2厅",
@@ -482,7 +513,6 @@
         x: 82,
         y: 73,
         note: "남동쪽 거주지 라인.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("林溪雅苑 苏州"),
         listings: [
           {
             title: "林溪雅苑 3房",
@@ -507,7 +537,6 @@
         x: 46,
         y: 35,
         note: "상업 중심지 인근. 주거보다 핵심권 참고용으로 넣은 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("苏州国际金融中心 苏州 租房"),
         listings: [
           {
             title: "国金中心附近 2房",
@@ -551,6 +580,21 @@
       });
     }
 
+    async function copyChineseName(text, buttonEl) {
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = buttonEl.textContent;
+        buttonEl.textContent = "복사됨";
+        buttonEl.classList.add("copied");
+        setTimeout(() => {
+          buttonEl.textContent = original;
+          buttonEl.classList.remove("copied");
+        }, 1200);
+      } catch (e) {
+        alert("복사에 실패했어. 길게 눌러서 직접 복사해줘.");
+      }
+    }
+
     function renderCommunityDetail(community) {
       communityDetail.className = "";
       communityDetail.innerHTML = `
@@ -558,6 +602,7 @@
           <h3>
             ${community.nameKo}
             <span class="name-cn">${community.nameCn}</span>
+            <button class="copy-btn" id="copyCnBtn">복사</button>
           </h3>
           <div class="note">${community.note}</div>
 
@@ -567,12 +612,11 @@
             <div><strong>평형</strong><br>${community.size}</div>
             <div><strong>구조</strong><br>${community.rooms}</div>
           </div>
-
-          <div class="link-row">
-            <a class="btn-link" href="${community.searchUrl}" target="_blank" rel="noreferrer">안주커 검색 페이지</a>
-          </div>
         </div>
       `;
+
+      const copyBtn = document.getElementById("copyCnBtn");
+      copyBtn.addEventListener("click", () => copyChineseName(community.nameCn, copyBtn));
     }
 
     function renderListings(community) {
