@@ -6,57 +6,62 @@
   <title>수저우 주재원 아파트 지도</title>
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
       background: #f4f6fb;
       color: #1f2937;
     }
+
     .topbar {
       background: #ffffff;
       border-bottom: 1px solid #e5e7eb;
-      padding: 20px 24px;
+      padding: 18px 20px;
       position: sticky;
       top: 0;
       z-index: 100;
     }
+
     .topbar h1 {
-      margin: 0 0 6px;
-      font-size: 28px;
-    }
-    .topbar p {
       margin: 0;
-      color: #6b7280;
-      font-size: 14px;
+      font-size: 22px;
+      line-height: 1.35;
     }
+
     .wrap {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 20px;
-      padding: 20px;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 16px;
+      padding: 16px;
     }
+
     .panel {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 18px;
       overflow: hidden;
     }
+
     .map-box {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #edf2ff;
     }
+
     .map-box img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
+
     #markerLayer {
       position: absolute;
       inset: 0;
     }
+
     .marker {
       position: absolute;
       transform: translate(-50%, -100%);
@@ -64,14 +69,16 @@
       background: #ef4444;
       color: #fff;
       border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 12px;
+      padding: 6px 8px;
+      font-size: 10px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       box-shadow: 0 8px 20px rgba(0,0,0,.15);
       border: 2px solid #fff;
+      line-height: 1.2;
     }
+
     .marker.active {
       background: #2563eb;
     }
@@ -79,73 +86,83 @@
     .side {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .section {
-      padding: 18px;
+      padding: 16px;
     }
+
     .section h2 {
-      margin: 0 0 14px;
-      font-size: 20px;
+      margin: 0 0 12px;
+      font-size: 18px;
+      line-height: 1.35;
     }
 
     .empty {
-      padding: 16px;
+      padding: 14px;
       background: #f8fafc;
       border-radius: 12px;
       color: #6b7280;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .community-card h3 {
       margin: 0 0 8px;
-      font-size: 22px;
+      font-size: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
     }
+
     .name-cn {
       display: inline-block;
-      margin-left: 8px;
       padding: 4px 8px;
-      font-size: 12px;
+      font-size: 11px;
       border-radius: 999px;
       background: #dbeafe;
       color: #1d4ed8;
       vertical-align: middle;
     }
+
+    .copy-btn {
+      border: 0;
+      background: #2563eb;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .copy-btn.copied {
+      background: #16a34a;
+    }
+
     .note {
       color: #4b5563;
-      margin-bottom: 12px;
-      line-height: 1.5;
+      margin-bottom: 10px;
+      line-height: 1.55;
+      font-size: 13px;
     }
+
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 6px;
     }
+
     .meta-grid > div {
       background: #f8fafc;
       border-radius: 12px;
       padding: 10px 12px;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .link-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .btn-link {
-      display: inline-block;
-      text-decoration: none;
-      background: #2563eb;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     .toolbar {
@@ -153,65 +170,78 @@
       gap: 10px;
       flex-wrap: wrap;
       align-items: end;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
+
     .toolbar label {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       color: #374151;
     }
+
     .toolbar input {
-      width: 120px;
-      padding: 10px 12px;
+      width: 110px;
+      padding: 9px 10px;
       border: 1px solid #cbd5e1;
       border-radius: 10px;
-      font-size: 14px;
+      font-size: 13px;
     }
+
     .toolbar button {
       border: 0;
       background: #111827;
       color: #fff;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
+      font-size: 12px;
     }
 
     .listing-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
+
     .listing-card {
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 14px;
+      padding: 12px;
       background: #fff;
     }
-    .listing-card h4 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      line-height: 1.4;
+
+    .listing-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
     }
+
+    .listing-card h4 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+      flex: 1;
+    }
+
     .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 8px;
-      font-size: 14px;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 13px;
       color: #374151;
+      line-height: 1.5;
     }
-    .listing-card a {
-      color: #2563eb;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-    }
+
     .small {
       color: #6b7280;
-      font-size: 13px;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     .community-list {
@@ -219,6 +249,7 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .community-item {
       border: 1px solid #e5e7eb;
       border-radius: 12px;
@@ -226,17 +257,23 @@
       cursor: pointer;
       background: #fff;
     }
+
     .community-item.active {
       border-color: #2563eb;
       background: #eff6ff;
     }
+
     .community-item strong {
       display: block;
       margin-bottom: 4px;
+      font-size: 15px;
+      line-height: 1.4;
     }
+
     .community-item span {
-      font-size: 13px;
+      font-size: 12px;
       color: #6b7280;
+      line-height: 1.5;
     }
 
     @media (max-width: 1100px) {
@@ -244,12 +281,18 @@
         grid-template-columns: 1fr;
       }
     }
+
     @media (max-width: 720px) {
       .meta-grid {
         grid-template-columns: 1fr;
       }
+
       .toolbar input {
         width: 100%;
+      }
+
+      .listing-title-row {
+        align-items: flex-start;
       }
     }
   </style>
@@ -313,7 +356,6 @@
         x: 22,
         y: 28,
         note: "금계호 서쪽 라인. 외국인 거주 수요가 높은 편으로 많이 언급되는 단지.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("玲珑湾 苏州"),
         listings: [
           {
             title: "玲珑湾 3室2厅",
@@ -321,8 +363,7 @@
             area: "145㎡",
             rooms: "3室2厅",
             floor: "중층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           },
           {
             title: "玲珑湾 湖景房",
@@ -330,8 +371,7 @@
             area: "158㎡",
             rooms: "3室2厅",
             floor: "고층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -347,7 +387,6 @@
         x: 10,
         y: 42,
         note: "금계호 남서쪽 라인. 가족 단위 주거로 많이 보는 타입.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("天域 苏州"),
         listings: [
           {
             title: "天域 精装3房",
@@ -355,8 +394,7 @@
             area: "160㎡",
             rooms: "3室2厅",
             floor: "중고층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           },
           {
             title: "天域 大户型",
@@ -364,8 +402,7 @@
             area: "178㎡",
             rooms: "4室2厅",
             floor: "중층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -381,7 +418,6 @@
         x: 28,
         y: 76,
         note: "금계호 남서쪽. 호수 접근성, 생활권 균형이 좋은 편.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("水巷邻里 苏州"),
         listings: [
           {
             title: "水巷邻里 3室2厅",
@@ -389,8 +425,7 @@
             area: "144㎡",
             rooms: "3室2厅",
             floor: "중층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -406,7 +441,6 @@
         x: 70,
         y: 53,
         note: "학교, 상업시설 쪽 접근성이 괜찮은 편으로 보는 단지.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("颐和源璟 苏州"),
         listings: [
           {
             title: "颐和源璟 花园洋房",
@@ -414,8 +448,7 @@
             area: "139㎡",
             rooms: "3室2厅",
             floor: "저층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -431,7 +464,6 @@
         x: 86,
         y: 56,
         note: "동쪽 라인의 고급 주거 단지로 넣어둔 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("绿城云庐 苏州"),
         listings: [
           {
             title: "绿城云庐 精装3房",
@@ -439,8 +471,7 @@
             area: "143㎡",
             rooms: "3室2厅",
             floor: "고층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -456,7 +487,6 @@
         x: 75,
         y: 82,
         note: "남동쪽 생활권. 신축 계열로 정리한 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("海和云庭 苏州"),
         listings: [
           {
             title: "海和云庭 3室2厅",
@@ -464,8 +494,7 @@
             area: "128㎡",
             rooms: "3室2厅",
             floor: "중층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -481,7 +510,6 @@
         x: 82,
         y: 73,
         note: "남동쪽 거주지 라인.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("林溪雅苑 苏州"),
         listings: [
           {
             title: "林溪雅苑 3房",
@@ -489,8 +517,7 @@
             area: "136㎡",
             rooms: "3室2厅",
             floor: "중층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       },
@@ -506,7 +533,6 @@
         x: 46,
         y: 35,
         note: "상업 중심지 인근. 주거보다 핵심권 참고용으로 넣은 버전.",
-        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("苏州国际金融中心 苏州 租房"),
         listings: [
           {
             title: "国金中心附近 2房",
@@ -514,8 +540,7 @@
             area: "110㎡",
             rooms: "2室2厅",
             floor: "고층",
-            source: "고정 저장 데이터",
-            link: "https://m.anjuke.com/su/"
+            source: "고정 저장 데이터"
           }
         ]
       }
@@ -550,6 +575,21 @@
       });
     }
 
+    async function copyText(text, buttonEl) {
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = buttonEl.textContent;
+        buttonEl.textContent = "복사됨";
+        buttonEl.classList.add("copied");
+        setTimeout(() => {
+          buttonEl.textContent = original;
+          buttonEl.classList.remove("copied");
+        }, 1200);
+      } catch (e) {
+        alert("복사에 실패했어.");
+      }
+    }
+
     function renderCommunityDetail(community) {
       communityDetail.className = "";
       communityDetail.innerHTML = `
@@ -557,6 +597,7 @@
           <h3>
             ${community.nameKo}
             <span class="name-cn">${community.nameCn}</span>
+            <button class="copy-btn" id="copyCnBtn">복사</button>
           </h3>
           <div class="note">${community.note}</div>
 
@@ -566,12 +607,11 @@
             <div><strong>평형</strong><br>${community.size}</div>
             <div><strong>구조</strong><br>${community.rooms}</div>
           </div>
-
-          <div class="link-row">
-            <a class="btn-link" href="${community.searchUrl}" target="_blank" rel="noreferrer">안주커 검색 페이지</a>
-          </div>
         </div>
       `;
+
+      const copyBtn = document.getElementById("copyCnBtn");
+      copyBtn.addEventListener("click", () => copyText(community.nameCn, copyBtn));
     }
 
     function renderListings(community) {
@@ -586,11 +626,14 @@
 
       listingInfo.textContent = `${community.nameKo} 기준 ${items.length}개 저장 매물`;
 
-      items.forEach(item => {
+      items.forEach((item, index) => {
         const el = document.createElement("div");
         el.className = "listing-card";
         el.innerHTML = `
-          <h4>${item.title}</h4>
+          <div class="listing-title-row">
+            <h4>${item.title}</h4>
+            <button class="copy-btn listing-copy-btn" data-index="${index}">복사</button>
+          </div>
           <div class="row">
             <span><strong>월세:</strong> ${priceText(item.price)}</span>
             <span><strong>면적:</strong> ${item.area}</span>
@@ -600,9 +643,12 @@
           <div class="row">
             <span><strong>데이터:</strong> ${item.source}</span>
           </div>
-          <a href="${item.link}" target="_blank" rel="noreferrer">외부 링크 보기</a>
         `;
         listingList.appendChild(el);
+      });
+
+      listingList.querySelectorAll(".listing-copy-btn").forEach((btn, index) => {
+        btn.addEventListener("click", () => copyText(items[index].title, btn));
       });
     }
 
@@ -612,7 +658,7 @@
       });
 
       document.querySelectorAll(".community-item").forEach(el => {
-        el.classList.toggle("active", el.dataset.id === selectedId);
+        el.classList.toggle("active", el.dataset.id ===selectedId);
       });
     }
 
