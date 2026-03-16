@@ -6,12 +6,14 @@
   <title>수저우 주재원 아파트 지도</title>
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
       background: #f4f6fb;
       color: #1f2937;
     }
+
     .topbar {
       background: #ffffff;
       border-bottom: 1px solid #e5e7eb;
@@ -20,43 +22,52 @@
       top: 0;
       z-index: 100;
     }
+
     .topbar h1 {
       margin: 0 0 6px;
       font-size: 28px;
     }
+
     .topbar p {
       margin: 0;
       color: #6b7280;
       font-size: 14px;
+      line-height: 1.5;
     }
+
     .wrap {
       display: grid;
       grid-template-columns: 1.4fr 1fr;
       gap: 20px;
       padding: 20px;
     }
+
     .panel {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 18px;
       overflow: hidden;
     }
+
     .map-box {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #edf2ff;
     }
+
     .map-box img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
+
     #markerLayer {
       position: absolute;
       inset: 0;
     }
+
     .marker {
       position: absolute;
       transform: translate(-50%, -100%);
@@ -64,14 +75,16 @@
       background: #ef4444;
       color: #fff;
       border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 12px;
+      padding: 5px 7px;
+      font-size: 10px;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
       box-shadow: 0 8px 20px rgba(0,0,0,.15);
       border: 2px solid #fff;
+      line-height: 1.2;
     }
+
     .marker.active {
       background: #2563eb;
     }
@@ -85,6 +98,7 @@
     .section {
       padding: 18px;
     }
+
     .section h2 {
       margin: 0 0 14px;
       font-size: 20px;
@@ -101,7 +115,9 @@
     .community-card h3 {
       margin: 0 0 8px;
       font-size: 22px;
+      line-height: 1.4;
     }
+
     .name-cn {
       display: inline-block;
       margin-left: 8px;
@@ -112,17 +128,21 @@
       color: #1d4ed8;
       vertical-align: middle;
     }
+
     .note {
       color: #4b5563;
       margin-bottom: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
+      font-size: 14px;
     }
+
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
       margin-bottom: 12px;
     }
+
     .meta-grid > div {
       background: #f8fafc;
       border-radius: 12px;
@@ -137,6 +157,7 @@
       gap: 10px;
       margin-top: 10px;
     }
+
     .btn-link {
       display: inline-block;
       text-decoration: none;
@@ -155,6 +176,7 @@
       align-items: end;
       margin-bottom: 14px;
     }
+
     .toolbar label {
       display: flex;
       flex-direction: column;
@@ -162,6 +184,7 @@
       font-size: 13px;
       color: #374151;
     }
+
     .toolbar input {
       width: 120px;
       padding: 10px 12px;
@@ -169,6 +192,7 @@
       border-radius: 10px;
       font-size: 14px;
     }
+
     .toolbar button {
       border: 0;
       background: #111827;
@@ -184,17 +208,20 @@
       flex-direction: column;
       gap: 12px;
     }
+
     .listing-card {
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       padding: 14px;
       background: #fff;
     }
+
     .listing-card h4 {
       margin: 0 0 8px;
       font-size: 18px;
       line-height: 1.4;
     }
+
     .row {
       display: flex;
       flex-wrap: wrap;
@@ -202,16 +229,20 @@
       margin-bottom: 8px;
       font-size: 14px;
       color: #374151;
+      line-height: 1.5;
     }
+
     .listing-card a {
       color: #2563eb;
       text-decoration: none;
       font-weight: 700;
       font-size: 14px;
     }
+
     .small {
       color: #6b7280;
       font-size: 13px;
+      line-height: 1.5;
     }
 
     .community-list {
@@ -219,6 +250,7 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .community-item {
       border: 1px solid #e5e7eb;
       border-radius: 12px;
@@ -226,17 +258,38 @@
       cursor: pointer;
       background: #fff;
     }
+
     .community-item.active {
       border-color: #2563eb;
       background: #eff6ff;
     }
+
     .community-item strong {
       display: block;
       margin-bottom: 4px;
+      line-height: 1.4;
     }
+
     .community-item span {
       font-size: 13px;
       color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
     }
 
     @media (max-width: 1100px) {
@@ -244,12 +297,22 @@
         grid-template-columns: 1fr;
       }
     }
+
     @media (max-width: 720px) {
       .meta-grid {
         grid-template-columns: 1fr;
       }
+
       .toolbar input {
         width: 100%;
+      }
+
+      .photo-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .photo-grid img {
+        height: 95px;
       }
     }
   </style>
@@ -257,7 +320,10 @@
 <body>
   <header class="topbar">
     <h1>수저우 추천 아파트 위치도</h1>
-    <p>실시간 연동 없이, 지금 기준으로 정리한 고정 데이터 버전이다. GitHub Pages에 바로 올릴 수 있다.</p>
+    <p>
+      지도에서 단지를 클릭하면 단지 정보, 대표 사진, 저장 매물을 볼 수 있다.<br>
+      현재 버전은 고정 데이터 기반이다.
+    </p>
   </header>
 
   <main class="wrap">
@@ -315,6 +381,12 @@
         y: 28,
         note: "금계호 서쪽 라인. 외국인 거주 수요가 높은 편으로 많이 언급되는 단지.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("玲珑湾 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "玲珑湾 3室2厅",
@@ -349,6 +421,12 @@
         y: 42,
         note: "금계호 남서쪽 라인. 가족 단위 주거로 많이 보는 타입.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("天域 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "天域 精装3房",
@@ -383,6 +461,12 @@
         y: 76,
         note: "금계호 남서쪽. 호수 접근성, 생활권 균형이 좋은 편.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("水巷邻里 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1464890100898-a385f744067f?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "水巷邻里 3室2厅",
@@ -408,6 +492,12 @@
         y: 53,
         note: "학교, 상업시설 쪽 접근성이 괜찮은 편으로 보는 단지.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("颐和源璟 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "颐和源璟 花园洋房",
@@ -433,6 +523,12 @@
         y: 56,
         note: "동쪽 라인의 고급 주거 단지로 넣어둔 버전.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("绿城云庐 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "绿城云庐 精装3房",
@@ -458,6 +554,12 @@
         y: 82,
         note: "남동쪽 생활권. 신축 계열로 정리한 버전.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("海和云庭 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1464890100898-a385f744067f?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "海和云庭 3室2厅",
@@ -483,6 +585,12 @@
         y: 73,
         note: "남동쪽 거주지 라인.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("林溪雅苑 苏州"),
+        photos: [
+          "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "林溪雅苑 3房",
@@ -506,8 +614,14 @@
         rooms: "2~3룸",
         x: 46,
         y: 35,
-        note: "상업 중심지 인근. 주거보다 핵심권 참고용으로 넣은 버전.",
+        note: "상업 중심지 인근. 주거보다 핵심권 참고용.",
         searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("苏州国际金融中心 苏州 租房"),
+        photos: [
+          "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
+          "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=80"
+        ],
         listings: [
           {
             title: "国金中心附近 2房",
@@ -552,6 +666,14 @@
     }
 
     function renderCommunityDetail(community) {
+      const photoHtml = (community.photos && community.photos.length)
+        ? `
+          <div class="photo-grid">
+            ${community.photos.map(url => `<img src="${url}" alt="${community.nameKo} 대표 사진" loading="lazy">`).join("")}
+          </div>
+        `
+        : "";
+
       communityDetail.className = "";
       communityDetail.innerHTML = `
         <div class="community-card">
@@ -560,6 +682,8 @@
             <span class="name-cn">${community.nameCn}</span>
           </h3>
           <div class="note">${community.note}</div>
+
+          ${photoHtml}
 
           <div class="meta-grid">
             <div><strong>지역</strong><br>${community.district}</div>
