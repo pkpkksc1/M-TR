@@ -1,261 +1,668 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 통역 mobile verM6</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>수저우 주재원 아파트 지도</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: #f4f6fb;
+      color: #1f2937;
+    }
+    .topbar {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+    .topbar p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .wrap {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+      padding: 20px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .map-box {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #edf2ff;
+    }
+    .map-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    #markerLayer {
+      position: absolute;
+      inset: 0;
+    }
+    .marker {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      border: 0;
+      background: #ef4444;
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 8px 20px rgba(0,0,0,.15);
+      border: 2px solid #fff;
+    }
+    .marker.active {
+      background: #2563eb;
+    }
 
-<style>
-body{
-  background:#000;
-  color:#fff;
-  font-family:Arial, sans-serif;
-  margin:0;
-}
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-#header{
-  position:fixed;
-  top:12px;
-  left:12px;
-  right:12px;
-  z-index:10;
-}
+    .section {
+      padding: 18px;
+    }
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
 
-#title{
-  font-size:18px;
-  font-weight:bold;
-}
+    .empty {
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+      color: #6b7280;
+      font-size: 14px;
+    }
 
-#version{
-  color:#00FF9C;
-  margin-left:6px;
-}
+    .community-card h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+    .name-cn {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      vertical-align: middle;
+    }
+    .note {
+      color: #4b5563;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .meta-grid > div {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
 
-#status{
-  margin-top:8px;
-  font-size:15px;
-  color:#ddd;
-}
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-link {
+      display: inline-block;
+      text-decoration: none;
+      background: #2563eb;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
 
-#controls{
-  margin-top:12px;
-  display:flex;
-  gap:8px;
-}
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+    .toolbar label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      color: #374151;
+    }
+    .toolbar input {
+      width: 120px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .toolbar button {
+      border: 0;
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
 
-#controls button{
-  flex:1;
-  font-size:22px;
-  padding:16px 14px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
+    .listing-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .listing-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+    .listing-card h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #374151;
+    }
+    .listing-card a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .small {
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-#listenBtn{
-  background:#00FF9C;
-  color:#000;
-}
+    .community-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .community-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .community-item.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .community-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+    .community-item span {
+      font-size: 13px;
+      color: #6b7280;
+    }
 
-#clearBtn{
-  background:#555;
-  color:#fff;
-}
-
-#subtitleBox{
-  position:absolute;
-  top:125px;
-  bottom:0;
-  left:0;
-  right:0;
-  overflow-y:auto;
-  padding:16px;
-  box-sizing:border-box;
-  text-align:center;
-}
-
-.subtitle{
-  font-size:32px;
-  color:#00FF9C;
-  font-weight:bold;
-  max-width:95%;
-  margin:14px auto;
-  line-height:1.45;
-  word-break:keep-all;
-  white-space:pre-line;
-}
-</style>
+    @media (max-width: 1100px) {
+      .wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 720px) {
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar input {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <header class="topbar">
+    <h1>수저우 추천 아파트 위치도</h1>
+    <p>실시간 연동 없이, 지금 기준으로 정리한 고정 데이터 버전이다. GitHub Pages에 바로 올릴 수 있다.</p>
+  </header>
 
-<div id="header">
-  <div id="title">
-    🎤 AI 통역 <span id="version">verM6</span>
-  </div>
+  <main class="wrap">
+    <section class="panel">
+      <div class="map-box">
+        <img src="./map.jpeg" alt="수저우 지도" />
+        <div id="markerLayer"></div>
+      </div>
+    </section>
 
-  <div id="status">대기중</div>
+    <section class="side">
+      <div class="panel section">
+        <h2>단지 정보</h2>
+        <div id="communityDetail" class="empty">지도에서 단지를 클릭해줘.</div>
+      </div>
 
-  <div id="controls">
-    <button id="listenBtn" onclick="listenOnce()">듣기</button>
-    <button id="clearBtn" onclick="clearSubtitle()">초기화</button>
-  </div>
-</div>
+      <div class="panel section">
+        <h2>단지 목록</h2>
+        <div id="communityList" class="community-list"></div>
+      </div>
 
-<div id="subtitleBox"></div>
+      <div class="panel section">
+        <h2>매물 리스트</h2>
 
-<script>
-let recognition = null;
-let busy = false;
-let lastSentence = "";
+        <div class="toolbar">
+          <label>
+            최소 월세
+            <input id="minPrice" type="number" value="15000" />
+          </label>
+          <label>
+            최대 월세
+            <input id="maxPrice" type="number" value="18000" />
+          </label>
+          <button id="applyBtn">필터 적용</button>
+        </div>
 
-const MAX_SUBTITLES = 4;
-const MIN_SENTENCE_LENGTH = 2;
+        <div id="listingInfo" class="small">단지를 선택하면 해당 단지 매물을 보여준다.</div>
+        <div id="listingList" class="listing-list"></div>
+      </div>
+    </section>
+  </main>
 
-function setStatus(text){
-  document.getElementById("status").innerText = text;
-}
+  <script>
+    const COMMUNITIES = [
+      {
+        id: "linglongwan",
+        nameKo: "링롱완",
+        nameCn: "玲珑湾",
+        district: "수저우 공업원구 SIP",
+        rentRange: "15000~18000 RMB",
+        type: "주재원 선호",
+        size: "120~180㎡",
+        rooms: "2~3룸",
+        x: 22,
+        y: 28,
+        note: "금계호 서쪽 라인. 외국인 거주 수요가 높은 편으로 많이 언급되는 단지.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("玲珑湾 苏州"),
+        listings: [
+          {
+            title: "玲珑湾 3室2厅",
+            price: 16000,
+            area: "145㎡",
+            rooms: "3室2厅",
+            floor: "중층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          },
+          {
+            title: "玲珑湾 湖景房",
+            price: 17500,
+            area: "158㎡",
+            rooms: "3室2厅",
+            floor: "고층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "tianyu",
+        nameKo: "천위",
+        nameCn: "天域",
+        district: "수저우 공업원구 SIP",
+        rentRange: "15000~20000 RMB",
+        type: "고급 가족형",
+        size: "150~200㎡",
+        rooms: "3~4룸",
+        x: 10,
+        y: 42,
+        note: "금계호 남서쪽 라인. 가족 단위 주거로 많이 보는 타입.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("天域 苏州"),
+        listings: [
+          {
+            title: "天域 精装3房",
+            price: 16800,
+            area: "160㎡",
+            rooms: "3室2厅",
+            floor: "중고층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          },
+          {
+            title: "天域 大户型",
+            price: 18500,
+            area: "178㎡",
+            rooms: "4室2厅",
+            floor: "중층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "marina-cove",
+        nameKo: "마리나 코브",
+        nameCn: "水巷邻里",
+        district: "수저우 공업원구 SIP",
+        rentRange: "16000~18000 RMB",
+        type: "주재원 선호",
+        size: "130~160㎡",
+        rooms: "3룸",
+        x: 28,
+        y: 76,
+        note: "금계호 남서쪽. 호수 접근성, 생활권 균형이 좋은 편.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("水巷邻里 苏州"),
+        listings: [
+          {
+            title: "水巷邻里 3室2厅",
+            price: 17000,
+            area: "144㎡",
+            rooms: "3室2厅",
+            floor: "중층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "yiheyuanjing",
+        nameKo: "이허위안징",
+        nameCn: "颐和源璟",
+        district: "수저우 공업원구 SIP",
+        rentRange: "15000~18000 RMB",
+        type: "국제학교 접근",
+        size: "120~160㎡",
+        rooms: "2~3룸",
+        x: 70,
+        y: 53,
+        note: "학교, 상업시설 쪽 접근성이 괜찮은 편으로 보는 단지.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("颐和源璟 苏州"),
+        listings: [
+          {
+            title: "颐和源璟 花园洋房",
+            price: 17800,
+            area: "139㎡",
+            rooms: "3室2厅",
+            floor: "저층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "lvyunchenglu",
+        nameKo: "뤼청윈루",
+        nameCn: "绿城云庐",
+        district: "수저우 공업원구 SIP",
+        rentRange: "16000~20000 RMB",
+        type: "신축 고급",
+        size: "130~170㎡",
+        rooms: "3룸",
+        x: 86,
+        y: 56,
+        note: "동쪽 라인의 고급 주거 단지로 넣어둔 버전.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("绿城云庐 苏州"),
+        listings: [
+          {
+            title: "绿城云庐 精装3房",
+            price: 18000,
+            area: "143㎡",
+            rooms: "3室2厅",
+            floor: "고층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "haiheyunting",
+        nameKo: "하이허윈팅",
+        nameCn: "海和云庭",
+        district: "수저우 공업원구 SIP",
+        rentRange: "15000~18000 RMB",
+        type: "신축",
+        size: "120~150㎡",
+        rooms: "2~3룸",
+        x: 75,
+        y: 82,
+        note: "남동쪽 생활권. 신축 계열로 정리한 버전.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("海和云庭 苏州"),
+        listings: [
+          {
+            title: "海和云庭 3室2厅",
+            price: 15800,
+            area: "128㎡",
+            rooms: "3室2厅",
+            floor: "중층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "linxiyayuan",
+        nameKo: "린시야위안",
+        nameCn: "林溪雅苑",
+        district: "수저우 공업원구 SIP",
+        rentRange: "15000~17000 RMB",
+        type: "가족 거주형",
+        size: "120~150㎡",
+        rooms: "3룸",
+        x: 82,
+        y: 73,
+        note: "남동쪽 거주지 라인.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("林溪雅苑 苏州"),
+        listings: [
+          {
+            title: "林溪雅苑 3房",
+            price: 16500,
+            area: "136㎡",
+            rooms: "3室2厅",
+            floor: "중층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      },
+      {
+        id: "ifc",
+        nameKo: "국금센터 인근",
+        nameCn: "苏州国际金融中心",
+        district: "금계호 핵심권",
+        rentRange: "17000~22000 RMB",
+        type: "핵심 상권",
+        size: "100~160㎡",
+        rooms: "2~3룸",
+        x: 46,
+        y: 35,
+        note: "상업 중심지 인근. 주거보다 핵심권 참고용으로 넣은 버전.",
+        searchUrl: "https://m.anjuke.com/su/zujin/?kw=" + encodeURIComponent("苏州国际金融中心 苏州 租房"),
+        listings: [
+          {
+            title: "国金中心附近 2房",
+            price: 17800,
+            area: "110㎡",
+            rooms: "2室2厅",
+            floor: "고층",
+            source: "고정 저장 데이터",
+            link: "https://m.anjuke.com/su/"
+          }
+        ]
+      }
+    ];
 
-function cleanText(text){
-  return text
-    .replace(/^(啊|嗯|哦|这个|那个|然后|所以|就是|음|아|어|그|저기)+/g, "")
-    .replace(/[.,!?。，！？…—-]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+    const markerLayer = document.getElementById("markerLayer");
+    const communityDetail = document.getElementById("communityDetail");
+    const communityList = document.getElementById("communityList");
+    const listingList = document.getElementById("listingList");
+    const listingInfo = document.getElementById("listingInfo");
+    const minPriceInput = document.getElementById("minPrice");
+    const maxPriceInput = document.getElementById("maxPrice");
+    const applyBtn = document.getElementById("applyBtn");
 
-function splitSentence(text){
-  if(text.length > 22){
-    text = text.replace(/(그리고|하지만|그래서|또|또한)/g, "\n$1");
-  }
-  return text;
-}
+    let selectedId = null;
 
-function getSpeechClass(){
-  return window.SpeechRecognition || window.webkitSpeechRecognition;
-}
-
-function listenOnce(){
-  if(busy) return;
-
-  const SpeechRecognitionClass = getSpeechClass();
-
-  if(!SpeechRecognitionClass){
-    setStatus("음성인식 미지원");
-    return;
-  }
-
-  recognition = new SpeechRecognitionClass();
-  recognition.lang = "zh-CN";
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-
-  recognition.onstart = function(){
-    setStatus("듣는 중");
-  };
-
-  recognition.onresult = async function(event){
-    let sentence = event.results[0][0].transcript;
-    sentence = cleanText(sentence);
-
-    setStatus("인식됨: " + sentence);
-
-    if(sentence.length < MIN_SENTENCE_LENGTH){
-      setStatus("너무 짧음");
-      return;
+    function priceText(v) {
+      return Number(v).toLocaleString("ko-KR") + " RMB";
     }
 
-    if(sentence === lastSentence){
-      setStatus("중복 문장");
-      return;
+    function getSelectedCommunity() {
+      return COMMUNITIES.find(c => c.id === selectedId) || null;
     }
 
-    lastSentence = sentence;
-    await translateAndShow(sentence);
-  };
+    function getFilteredListings(community) {
+      const min = Number(minPriceInput.value || 0);
+      const max = Number(maxPriceInput.value || 99999999);
 
-  recognition.onerror = function(e){
-    console.log("speech error:", e.error);
-
-    if(e.error === "not-allowed"){
-      setStatus("마이크 권한 필요");
-      return;
+      return (community.listings || []).filter(item => {
+        const p = Number(item.price || 0);
+        return p >= min && p <= max;
+      });
     }
-    if(e.error === "audio-capture"){
-      setStatus("마이크 확인");
-      return;
+
+    function renderCommunityDetail(community) {
+      communityDetail.className = "";
+      communityDetail.innerHTML = `
+        <div class="community-card">
+          <h3>
+            ${community.nameKo}
+            <span class="name-cn">${community.nameCn}</span>
+          </h3>
+          <div class="note">${community.note}</div>
+
+          <div class="meta-grid">
+            <div><strong>지역</strong><br>${community.district}</div>
+            <div><strong>월세대</strong><br>${community.rentRange}</div>
+            <div><strong>평형</strong><br>${community.size}</div>
+            <div><strong>구조</strong><br>${community.rooms}</div>
+          </div>
+
+          <div class="link-row">
+            <a class="btn-link" href="${community.searchUrl}" target="_blank" rel="noreferrer">안주커 검색 페이지</a>
+          </div>
+        </div>
+      `;
     }
-    if(e.error === "no-speech"){
-      setStatus("말이 없음");
-      return;
+
+    function renderListings(community) {
+      const items = getFilteredListings(community);
+      listingList.innerHTML = "";
+
+      if (!items.length) {
+        listingInfo.textContent = "현재 필터 조건에 맞는 저장 매물이 없다.";
+        listingList.innerHTML = `<div class="empty">조건에 맞는 매물이 없다.</div>`;
+        return;
+      }
+
+      listingInfo.textContent = `${community.nameKo} 기준 ${items.length}개 저장 매물`;
+
+      items.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "listing-card";
+        el.innerHTML = `
+          <h4>${item.title}</h4>
+          <div class="row">
+            <span><strong>월세:</strong> ${priceText(item.price)}</span>
+            <span><strong>면적:</strong> ${item.area}</span>
+            <span><strong>구조:</strong> ${item.rooms}</span>
+            <span><strong>층수:</strong> ${item.floor}</span>
+          </div>
+          <div class="row">
+            <span><strong>데이터:</strong> ${item.source}</span>
+          </div>
+          <a href="${item.link}" target="_blank" rel="noreferrer">외부 링크 보기</a>
+        `;
+        listingList.appendChild(el);
+      });
     }
-    setStatus("다시 시도");
-  };
 
-  recognition.onend = function(){
-    if(!busy && document.getElementById("status").innerText === "듣는 중"){
-      setStatus("대기중");
+    function setActiveUI() {
+      document.querySelectorAll(".marker").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === selectedId);
+      });
+
+      document.querySelectorAll(".community-item").forEach(el => {
+        el.classList.toggle("active", el.dataset.id === selectedId);
+      });
     }
-  };
 
-  try{
-    recognition.start();
-  }catch(e){
-    setStatus("시작 실패");
-  }
-}
-
-async function translateAndShow(text){
-  busy = true;
-  setStatus("번역중");
-
-  try{
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=ko&dt=t&q=${encodeURIComponent(text)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-
-    let translated = data?.[0]?.map(item => item[0]).join("") || "";
-    translated = splitSentence(translated);
-    translated = cleanText(translated);
-
-    if(translated.length >= 1){
-      addSubtitle(translated);
-      setStatus("완료");
-    }else{
-      setStatus("번역 결과 없음");
+    function selectCommunity(id) {
+      selectedId = id;
+      const community = getSelectedCommunity();
+      if (!community) return;
+      setActiveUI();
+      renderCommunityDetail(community);
+      renderListings(community);
     }
-  }catch(e){
-    console.log("translate error:", e);
-    addSubtitle("번역 오류");
-    setStatus("번역 실패");
-  }
 
-  busy = false;
-}
+    function createMarkers() {
+      markerLayer.innerHTML = "";
+      COMMUNITIES.forEach(community => {
+        const btn = document.createElement("button");
+        btn.className = "marker";
+        btn.dataset.id = community.id;
+        btn.textContent = community.nameKo;
+        btn.style.left = community.x + "%";
+        btn.style.top = community.y + "%";
+        btn.addEventListener("click", () => selectCommunity(community.id));
+        markerLayer.appendChild(btn);
+      });
+    }
 
-function addSubtitle(text){
-  const box = document.getElementById("subtitleBox");
+    function createCommunityList() {
+      communityList.innerHTML = "";
+      COMMUNITIES.forEach(community => {
+        const item = document.createElement("div");
+        item.className = "community-item";
+        item.dataset.id = community.id;
+        item.innerHTML = `
+          <strong>${community.nameKo} (${community.nameCn})</strong>
+          <span>${community.district} · ${community.rentRange}</span>
+        `;
+        item.addEventListener("click", () => selectCommunity(community.id));
+        communityList.appendChild(item);
+      });
+    }
 
-  const div = document.createElement("div");
-  div.className = "subtitle";
-  div.innerText = text;
+    applyBtn.addEventListener("click", () => {
+      const community = getSelectedCommunity();
+      if (community) renderListings(community);
+    });
 
-  box.appendChild(div);
-
-  while(box.children.length > MAX_SUBTITLES){
-    box.removeChild(box.firstChild);
-  }
-
-  box.scrollTop = box.scrollHeight;
-}
-
-function clearSubtitle(){
-  document.getElementById("subtitleBox").innerHTML = "";
-  lastSentence = "";
-  setStatus("대기중");
-}
-</script>
-
+    createMarkers();
+    createCommunityList();
+    selectCommunity(COMMUNITIES[0].id);
+  </script>
 </body>
 </html>
