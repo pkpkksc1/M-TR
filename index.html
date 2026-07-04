@@ -1,50 +1,78 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>나의 기록 페이지</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M-TR</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>나의 기록 페이지</h1>
-    <p>맛집, 여행, 생활 정보를 모아두는 공간</p>
 
-    <nav>
-      <a href="index.html">홈</a>
-      <a href="restaurants.html">맛집</a>
-      <a href="travel.html">여행</a>
-      <a href="life.html">생활</a>
+  <header class="header">
+    <nav class="nav">
+      <a href="index.html" class="logo">M-TR</a>
+
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="restaurants.html">맛집</a>
+        <a href="travel.html">여행</a>
+        <a href="life.html">생활</a>
+      </div>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <h2>오늘의 추천 기록</h2>
-      <p>내가 직접 가본 곳, 좋았던 장소, 유용한 생활 정보를 정리합니다.</p>
+      <div class="hero-box">
+        <span>My Travel & Review</span>
+        <h1>맛집, 여행, 생활을<br>감각적으로 기록하는 공간</h1>
+        <p>
+          내가 직접 경험한 장소와 순간들을 모아두는 개인 기록 페이지입니다.
+          맛집 추천, 여행 코스, 생활 정보까지 보기 쉽게 정리합니다.
+        </p>
+      </div>
     </section>
 
-    <section class="card-wrap">
-      <a class="card" href="restaurants.html">
-        <h3>맛집</h3>
-        <p>가본 식당, 추천 메뉴, 가격대 정리</p>
-      </a>
+    <section class="section">
+      <div class="section-title">
+        <h2>Category</h2>
+        <p>보고 싶은 카테고리를 선택해보세요.</p>
+      </div>
 
-      <a class="card" href="travel.html">
-        <h3>여행</h3>
-        <p>여행지, 코스, 준비물, 후기 정리</p>
-      </a>
+      <div class="card-grid">
+        <a href="restaurants.html" class="card">
+          <div>
+            <div class="card-icon">🍽️</div>
+            <h3>맛집</h3>
+            <p>가본 식당, 추천 메뉴, 분위기, 가격대를 정리합니다.</p>
+          </div>
+          <div class="card-more">보러가기 →</div>
+        </a>
 
-      <a class="card" href="life.html">
-        <h3>생활</h3>
-        <p>일상 팁, 쇼핑, 유용한 정보 모음</p>
-      </a>
+        <a href="travel.html" class="card">
+          <div>
+            <div class="card-icon">✈️</div>
+            <h3>여행</h3>
+            <p>여행 코스, 가볼 만한 곳, 준비물과 후기를 기록합니다.</p>
+          </div>
+          <div class="card-more">보러가기 →</div>
+        </a>
+
+        <a href="life.html" class="card">
+          <div>
+            <div class="card-icon">🌿</div>
+            <h3>생활</h3>
+            <p>일상 꿀팁, 쇼핑, 학교 생활, 유용한 정보를 모읍니다.</p>
+          </div>
+          <div class="card-more">보러가기 →</div>
+        </a>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>© 2026 My Page</p>
+  <footer class="footer">
+    © 2026 M-TR. All rights reserved.
   </footer>
+
 </body>
 </html>
