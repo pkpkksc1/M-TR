@@ -1,445 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>수저우 추천 아파트 위치도</title>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,"Noto Sans KR",sans-serif;
-background:#f4f6fb;
-color:#1f2937;
-}
-
-.topbar{
-background:#fff;
-border-bottom:1px solid #e5e7eb;
-padding:14px 16px;
-position:sticky;
-top:0;
-z-index:100;
-}
-
-.topbar h1{
-margin:0;
-font-size:19px;
-line-height:1.3;
-}
-
-.wrap{
-display:grid;
-grid-template-columns:1.4fr 1fr;
-gap:14px;
-padding:14px;
-}
-
-.panel{
-background:#fff;
-border:1px solid #e5e7eb;
-border-radius:14px;
-overflow:hidden;
-}
-
-.map-box{
-position:relative;
-width:100%;
-aspect-ratio:16/9;
-background:#edf2ff;
-}
-
-.map-box img{
-width:100%;
-height:100%;
-object-fit:contain;
-display:block;
-}
-
-#markerLayer{
-position:absolute;
-inset:0;
-}
-
-.marker{
-position:absolute;
-transform:translate(-50%,-100%);
-background:#ef4444;
-color:#fff;
-border-radius:999px;
-padding:5px 7px;
-font-size:9px;
-font-weight:700;
-border:2px solid #fff;
-cursor:pointer;
-line-height:1.15;
-white-space:nowrap;
-box-shadow:0 6px 16px rgba(0,0,0,.15);
-}
-
-.marker.active{
-background:#2563eb;
-}
-
-.section{
-padding:14px;
-}
-
-.section h2{
-margin:0 0 10px;
-font-size:16px;
-}
-
-.empty{
-padding:10px;
-background:#f8fafc;
-border-radius:10px;
-font-size:12px;
-color:#6b7280;
-}
-
-.community-card h3{
-margin:0 0 8px;
-font-size:16px;
-display:flex;
-align-items:center;
-gap:6px;
-flex-wrap:wrap;
-line-height:1.35;
-}
-
-.name-cn{
-background:#dbeafe;
-color:#1d4ed8;
-padding:4px 7px;
-border-radius:999px;
-font-size:10px;
-}
-
-.copy-btn{
-border:0;
-background:#2563eb;
-color:#fff;
-padding:5px 9px;
-border-radius:999px;
-font-size:10px;
-cursor:pointer;
-white-space:nowrap;
-}
-
-.note{
-font-size:12px;
-color:#4b5563;
-margin-bottom:8px;
-line-height:1.5;
-}
-
-.meta-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px;
-margin-top:8px;
-}
-
-.meta-grid div{
-background:#f8fafc;
-border-radius:10px;
-padding:9px;
-font-size:12px;
-line-height:1.45;
-}
-
-.community-list{
-display:flex;
-flex-direction:column;
-gap:8px;
-}
-
-.community-item{
-border:1px solid #e5e7eb;
-border-radius:12px;
-padding:10px;
-cursor:pointer;
-background:#fff;
-}
-
-.community-item.active{
-border-color:#2563eb;
-background:#eff6ff;
-}
-
-.community-item strong{
-display:block;
-font-size:13px;
-margin-bottom:3px;
-line-height:1.35;
-}
-
-.community-item span{
-font-size:11px;
-color:#6b7280;
-line-height:1.4;
-}
-
-@media(max-width:1000px){
-.wrap{grid-template-columns:1fr}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나의 기록 페이지</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+  <header>
+    <h1>나의 기록 페이지</h1>
+    <p>맛집, 여행, 생활 정보를 모아두는 공간</p>
 
-<header class="topbar">
-<h1>수저우 추천 아파트 위치도</h1>
-</header>
+    <nav>
+      <a href="index.html">홈</a>
+      <a href="restaurants.html">맛집</a>
+      <a href="travel.html">여행</a>
+      <a href="life.html">생활</a>
+    </nav>
+  </header>
 
-<main class="wrap">
+  <main>
+    <section class="hero">
+      <h2>오늘의 추천 기록</h2>
+      <p>내가 직접 가본 곳, 좋았던 장소, 유용한 생활 정보를 정리합니다.</p>
+    </section>
 
-<section class="panel">
-<div class="map-box">
-<img src="./map.jpeg.PNG" alt="수저우 지도">
-<div id="markerLayer"></div>
-</div>
-</section>
+    <section class="card-wrap">
+      <a class="card" href="restaurants.html">
+        <h3>맛집</h3>
+        <p>가본 식당, 추천 메뉴, 가격대 정리</p>
+      </a>
 
-<section class="panel section">
+      <a class="card" href="travel.html">
+        <h3>여행</h3>
+        <p>여행지, 코스, 준비물, 후기 정리</p>
+      </a>
 
-<h2>단지 정보</h2>
+      <a class="card" href="life.html">
+        <h3>생활</h3>
+        <p>일상 팁, 쇼핑, 유용한 정보 모음</p>
+      </a>
+    </section>
+  </main>
 
-<div id="communityDetail" class="empty">
-지도에서 단지를 클릭해줘.
-</div>
-
-<h2 style="margin-top:18px">단지 목록</h2>
-
-<div id="communityList" class="community-list"></div>
-
-</section>
-
-</main>
-
-<script>
-const COMMUNITIES=[
-
-{
-id:"linglongwan",
-nameKo:"링롱완",
-nameCn:"玲珑湾",
-district:"수저우 공업원구 SIP",
-rentRange:"15000~18000 RMB",
-size:"120~180㎡",
-rooms:"2~3룸",
-x:22,
-y:28,
-note:"금계호 서쪽 주재원 선호 단지."
-},
-
-{
-id:"tianyu",
-nameKo:"천위",
-nameCn:"天域",
-district:"수저우 공업원구 SIP",
-rentRange:"15000~20000 RMB",
-size:"150~200㎡",
-rooms:"3~4룸",
-x:10,
-y:42,
-note:"가족 거주 선호 단지."
-},
-
-{
-id:"marina-cove",
-nameKo:"마리나 코브",
-nameCn:"水巷邻里",
-district:"수저우 공업원구 SIP",
-rentRange:"16000~18000 RMB",
-size:"130~160㎡",
-rooms:"3룸",
-x:28,
-y:76,
-note:"호수 접근성 좋은 단지."
-},
-
-{
-id:"yiheyuanjing",
-nameKo:"이허위안징",
-nameCn:"颐和源璟",
-district:"수저우 공업원구 SIP",
-rentRange:"15000~18000 RMB",
-size:"120~160㎡",
-rooms:"2~3룸",
-x:70,
-y:53,
-note:"생활 편의시설 접근 좋음."
-},
-
-{
-id:"lvyunchenglu",
-nameKo:"뤼청윈루",
-nameCn:"绿城云庐",
-district:"수저우 공업원구 SIP",
-rentRange:"16000~20000 RMB",
-size:"130~170㎡",
-rooms:"3룸",
-x:86,
-y:56,
-note:"동쪽 라인의 고급 주거 단지."
-},
-
-{
-id:"haiheyunting",
-nameKo:"하이허윈팅",
-nameCn:"海和云庭",
-district:"수저우 공업원구 SIP",
-rentRange:"15000~18000 RMB",
-size:"120~150㎡",
-rooms:"2~3룸",
-x:75,
-y:82,
-note:"신축 아파트."
-},
-
-{
-id:"linxiyayuan",
-nameKo:"린시야위안",
-nameCn:"林溪雅苑",
-district:"수저우 공업원구 SIP",
-rentRange:"15000~17000 RMB",
-size:"120~150㎡",
-rooms:"3룸",
-x:82,
-y:73,
-note:"남동쪽 거주지 라인."
-},
-
-{
-id:"ifc",
-nameKo:"국금센터 인근",
-nameCn:"苏州国际金融中心",
-district:"금계호 핵심권",
-rentRange:"17000~22000 RMB",
-size:"100~160㎡",
-rooms:"2~3룸",
-x:46,
-y:35,
-note:"금계호 핵심 상업 중심지. IFC 주변 주거 참고용."
-},
-
-{
-id:"suzhou-center",
-nameKo:"소주중심",
-nameCn:"苏州中心",
-district:"금계호 핵심권",
-rentRange:"고급 상업·주거 복합권",
-size:"쇼핑몰·오피스·주거",
-rooms:"복합단지",
-x:12,
-y:70,
-note:"지도에 적힌 빨간색 '소주중심' 위치 기준."
-},
-
-{
-id:"vanke",
-nameKo:"완커 랑서",
-nameCn:"万科朗拾",
-district:"수저우 공업원구 SIP",
-rentRange:"17000~21000 RMB",
-size:"186~258㎡",
-rooms:"4룸",
-x:40,
-y:30,
-note:"2024년 신축 고급 단지."
-}
-
-];
-
-const markerLayer=document.getElementById("markerLayer");
-const communityDetail=document.getElementById("communityDetail");
-const communityList=document.getElementById("communityList");
-
-let selectedId=null;
-
-function copyText(text,btn){
-navigator.clipboard.writeText(text);
-btn.innerText="복사됨";
-setTimeout(()=>{btn.innerText="복사"},1000);
-}
-
-function renderDetail(c){
-communityDetail.className="";
-communityDetail.innerHTML=`
-<div class="community-card">
-<h3>
-${c.nameKo}
-<span class="name-cn">${c.nameCn}</span>
-<button class="copy-btn" id="copyBtn">복사</button>
-</h3>
-
-<div class="note">${c.note}</div>
-
-<div class="meta-grid">
-<div><strong>지역</strong><br>${c.district}</div>
-<div><strong>월세범위</strong><br>${c.rentRange}</div>
-<div><strong>평형</strong><br>${c.size}</div>
-<div><strong>구조</strong><br>${c.rooms}</div>
-</div>
-
-</div>
-`;
-
-document.getElementById("copyBtn").onclick=()=>copyText(c.nameCn,document.getElementById("copyBtn"));
-}
-
-function setActive(){
-document.querySelectorAll(".marker").forEach(el=>{
-el.classList.toggle("active",el.dataset.id===selectedId);
-});
-
-document.querySelectorAll(".community-item").forEach(el=>{
-el.classList.toggle("active",el.dataset.id===selectedId);
-});
-}
-
-function selectCommunity(id){
-selectedId=id;
-const c=COMMUNITIES.find(v=>v.id===id);
-setActive();
-renderDetail(c);
-}
-
-function createMarkers(){
-COMMUNITIES.forEach(c=>{
-const btn=document.createElement("button");
-btn.className="marker";
-btn.dataset.id=c.id;
-btn.innerText=c.nameKo;
-btn.style.left=c.x+"%";
-btn.style.top=c.y+"%";
-btn.onclick=()=>selectCommunity(c.id);
-markerLayer.appendChild(btn);
-});
-}
-
-function createList(){
-COMMUNITIES.forEach(c=>{
-const el=document.createElement("div");
-el.className="community-item";
-el.dataset.id=c.id;
-el.innerHTML=`
-<strong>${c.nameKo} (${c.nameCn})</strong>
-<span>${c.district} · ${c.rentRange}</span>
-`;
-el.onclick=()=>selectCommunity(c.id);
-communityList.appendChild(el);
-});
-}
-
-createMarkers();
-createList();
-selectCommunity(COMMUNITIES[0].id);
-</script>
-
+  <footer>
+    <p>© 2026 My Page</p>
+  </footer>
 </body>
 </html>
