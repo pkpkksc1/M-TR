@@ -78,11 +78,11 @@ a {
   font-weight: 900;
 }
 
-/* Daily Archive 카드 */
+/* 아래 카드 */
 .archive-card {
   margin-top: 14px;
   min-height: 278px;
-  padding: 36px 28px 28px;
+  padding: 36px 28px 30px;
   background: #d8cfbd;
   box-shadow: 0 12px 28px rgba(35, 28, 20, 0.1);
 }
@@ -92,31 +92,23 @@ a {
   height: 18px;
   background: #9e9e9e;
   transform: rotate(45deg);
-  margin-bottom: 28px;
+  margin-bottom: 26px;
 }
 
 .archive-card h2 {
   margin: 0;
-  font-size: 41px;
-  line-height: 0.86;
-  letter-spacing: -3px;
+  font-size: 36px;
+  line-height: 1.12;
+  letter-spacing: -2px;
   font-weight: 900;
 }
 
-.archive-sub {
-  margin: 18px 0 0;
-  font-size: 13px;
-  line-height: 1.65;
-  color: #4d473f;
-  font-weight: 800;
-}
-
-/* 아래 버튼 */
+/* 버튼 */
 .category-menu {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .category-menu a {
@@ -128,19 +120,16 @@ a {
   transition: 0.2s ease;
 }
 
-.category-menu a span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: #7a7166;
-}
-
 .category-menu a:hover {
   background: #151515;
   color: white;
 }
 
-.category-menu a:hover span {
-  color: #d8cfbd;
+/* 설명 문구 */
+.archive-sub {
+  margin: 24px 0 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #4d473f;
+  font-weight: 800;
 }
