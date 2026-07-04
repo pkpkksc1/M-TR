@@ -8,46 +8,55 @@
 </head>
 <body>
 
-  <main class="wrap">
+  <header class="header">
+    <a href="index.html" class="logo">M-TR</a>
 
-    <section class="title-area">
+    <nav class="nav">
+      <a href="restaurants.html">맛집</a>
+      <a href="travel.html">여행</a>
+      <a href="life.html">생활</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <section class="intro">
       <p>MY TRAVEL & RECORD</p>
-      <h1>M-TR</h1>
+      <h1>Daily Archive</h1>
+      <span>맛집, 여행, 생활을 천천히 기록하는 공간</span>
     </section>
 
-    <section class="main-photo">
+    <section class="photo-wrap">
       <img src="images/main.jpg" alt="메인 사진">
-
-      <div class="photo-text">
-        <p>MAIN PHOTO</p>
-        <h2>Night View</h2>
-      </div>
     </section>
 
-    <section class="category-grid">
+    <section class="category-section">
+
+      <a href="restaurants.html" class="category-card">
+        <div class="number">01</div>
+        <div>
+          <h2>맛집</h2>
+          <p>Restaurant</p>
+        </div>
+        <span>가본 식당과 추천 메뉴 기록</span>
+      </a>
+
+      <a href="travel.html" class="category-card dark">
+        <div class="number">02</div>
+        <div>
+          <h2>여행</h2>
+          <p>Travel</p>
+        </div>
+        <span>좋았던 장소와 여행 코스 기록</span>
+      </a>
 
       <a href="life.html" class="category-card">
-        <p class="card-label">CATEGORY 01</p>
-        <div class="inner-box">
-          <h3>생활</h3>
-          <span>Life Archive</span>
+        <div class="number">03</div>
+        <div>
+          <h2>생활</h2>
+          <p>Life</p>
         </div>
-      </a>
-
-      <a href="restaurants.html" class="category-card point">
-        <p class="card-label">CATEGORY 02</p>
-        <div class="inner-box">
-          <h3>맛집</h3>
-          <span>Restaurant Archive</span>
-        </div>
-      </a>
-
-      <a href="travel.html" class="category-card">
-        <p class="card-label">CATEGORY 03</p>
-        <div class="inner-box">
-          <h3>여행</h3>
-          <span>Travel Archive</span>
-        </div>
+        <span>일상과 유용한 정보 기록</span>
       </a>
 
     </section>
