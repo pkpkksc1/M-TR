@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -10,7 +12,7 @@ body {
   margin: 0;
   background: #f4f1ea;
   color: #151515;
-  font-family: Arial, Helvetica, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-family: "Noto Sans KR", Arial, sans-serif;
 }
 
 a {
@@ -81,8 +83,8 @@ a {
 /* 아래 카드 */
 .archive-card {
   margin-top: 14px;
-  min-height: 278px;
-  padding: 36px 28px 30px;
+  min-height: 300px;
+  padding: 36px 28px 32px;
   background: #d8cfbd;
   box-shadow: 0 12px 28px rgba(35, 28, 20, 0.1);
 }
@@ -95,11 +97,13 @@ a {
   margin-bottom: 26px;
 }
 
-.archive-card h2 {
+/* 중국어 제목 */
+.main-title {
   margin: 0;
-  font-size: 36px;
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-size: 38px;
   line-height: 1.12;
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   font-weight: 900;
 }
 
@@ -107,16 +111,17 @@ a {
 .category-menu {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 28px;
 }
 
 .category-menu a {
-  padding: 11px 6px;
-  border: 1px solid rgba(0, 0, 0, 0.24);
+  padding: 15px 8px;
+  border: 1.5px solid rgba(0, 0, 0, 0.35);
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
+  background: rgba(255, 255, 255, 0.18);
   transition: 0.2s ease;
 }
 
@@ -127,9 +132,9 @@ a {
 
 /* 설명 문구 */
 .archive-sub {
-  margin: 24px 0 0;
+  margin: 26px 0 0;
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.7;
   color: #4d473f;
-  font-weight: 800;
+  font-weight: 700;
 }
