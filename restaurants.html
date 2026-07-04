@@ -2,50 +2,80 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>맛집 | M-TR</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css?v=30">
 </head>
 <body>
 
-  <header class="header">
-    <nav class="nav">
-      <a href="index.html" class="logo">M-TR</a>
+  <main class="food-page">
 
-      <div class="menu">
-        <a href="index.html">Home</a>
-        <a href="restaurants.html">맛집</a>
-        <a href="travel.html">여행</a>
-        <a href="life.html">생활</a>
-      </div>
-    </nav>
-  </header>
+    <header class="food-header">
+      <a href="index.html" class="back-link">← Home</a>
+      <p>SUZHOU RESTAURANT</p>
+      <h1>맛집 기록</h1>
+      <span>쑤저우에서 가보고 싶은 곳과 좋았던 식당을 모아두는 공간</span>
+    </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-box">
-        <span>Restaurant</span>
-        <h1>맛집 기록</h1>
-        <p>직접 가본 식당과 추천 메뉴를 정리하는 페이지입니다.</p>
+    <section class="restaurant-card">
+
+      <div class="restaurant-photo">
+        <img src="images/restaurant1.jpg" alt="맛집 대표사진">
       </div>
+
+      <div class="restaurant-info">
+        <p class="restaurant-tag">RESTAURANT 01</p>
+
+        <h2 id="restaurantName">가게 이름을 입력하세요</h2>
+
+        <div class="info-block">
+          <strong>대표메뉴</strong>
+          <p id="restaurantMenu">샤오롱바오 · 우육면 · 볶음밥</p>
+        </div>
+
+        <div class="info-block">
+          <strong>주소</strong>
+          <p id="restaurantAddress">苏州市 工业园区 예시주소</p>
+        </div>
+
+        <div class="button-grid">
+          <button onclick="copyText('restaurantName')">이름 복사</button>
+          <button onclick="copyText('restaurantAddress')">주소 복사</button>
+          <a id="mapLink" href="#" target="_blank">지도 열기</a>
+        </div>
+      </div>
+
     </section>
 
-    <section class="section">
-      <div class="post-list">
-        <article class="post">
-          <h2>토론토 스시 맛집</h2>
-          <p><strong>추천 메뉴:</strong> 연어롤, 캘리포니아롤</p>
-          <p>가격도 괜찮고 점심으로 먹기 좋은 곳입니다.</p>
-        </article>
-
-        <article class="post">
-          <h2>분위기 좋은 카페</h2>
-          <p><strong>추천 메뉴:</strong> 아이스라떼, 디저트</p>
-          <p>사진 찍기 좋고 조용해서 쉬기 좋은 공간입니다.</p>
-        </article>
-      </div>
-    </section>
   </main>
+
+  <script>
+    const restaurantName = document.getElementById("restaurantName").innerText;
+    const restaurantAddress = document.getElementById("restaurantAddress").innerText;
+    const mapQuery = encodeURIComponent(restaurantName + " " + restaurantAddress);
+
+    document.getElementById("mapLink").href =
+      "https://maps.apple.com/?q=" + mapQuery;
+
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () {
+          alert("복사됐어요!");
+        });
+      } else {
+        const tempInput = document.createElement("textarea");
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("복사됐어요!");
+      }
+    }
+  </script>
 
 </body>
 </html>
