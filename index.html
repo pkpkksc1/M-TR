@@ -8,30 +8,54 @@
 </head>
 <body>
 
-  <header class="nav">
-    <div class="logo">M-TR</div>
-    <div class="menu">
-      <a href="index.html">Home</a>
-      <a href="restaurants.html">맛집</a>
-      <a href="travel.html">여행</a>
-      <a href="life.html">생활</a>
-    </div>
-  </header>
+  <main class="layout">
 
- <main class="hero">
-  <img src="images/main.jpg" alt="main image" class="hero-img">
+    <!-- 왼쪽 카테고리 -->
+    <aside class="sidebar">
+      <p class="side-label">CATEGORIES</p>
 
-    <div class="hero-text">
-      <p class="sub">My Archive</p>
-      <h1>맛집 · 여행 · 생활</h1>
-      <p class="desc">내가 좋아하는 장소와 일상을 기록하는 공간</p>
+      <a href="restaurants.html" class="category-item">
+        <span class="num">01</span>
+        <div>
+          <strong>맛집</strong>
+          <p>Restaurant archive</p>
+        </div>
+      </a>
 
-      <div class="buttons">
-        <a href="restaurants.html">맛집</a>
-        <a href="travel.html">여행</a>
-        <a href="life.html">생활</a>
+      <a href="travel.html" class="category-item">
+        <span class="num">02</span>
+        <div>
+          <strong>여행</strong>
+          <p>Travel archive</p>
+        </div>
+      </a>
+
+      <a href="life.html" class="category-item">
+        <span class="num">03</span>
+        <div>
+          <strong>생활</strong>
+          <p>Life archive</p>
+        </div>
+      </a>
+    </aside>
+
+    <!-- 가운데 이름 -->
+    <section class="center-name">
+      <p class="mini-text">MY PERSONAL ARCHIVE</p>
+      <h1>M-TR</h1>
+      <p class="desc">
+        맛집, 여행, 생활을<br>
+        기록하는 공간
+      </p>
+    </section>
+
+    <!-- 오른쪽 이미지 -->
+    <section class="image-section">
+      <div class="image-card">
+        <img src="images/main.jpg" alt="main image">
       </div>
-    </div>
+    </section>
+
   </main>
 
 </body>
