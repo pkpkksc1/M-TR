@@ -131,3 +131,137 @@ a {
   color: #5a5146;
   font-weight: 700;
 }
+
+/* restaurants.html */
+
+.food-page {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px 14px 40px;
+  background: #f4f1ea;
+}
+
+.food-header {
+  padding: 10px 2px 24px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #5a5146;
+}
+
+.food-header p {
+  margin: 0 0 8px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #9b9285;
+  font-weight: 900;
+}
+
+.food-header h1 {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: -2px;
+  font-weight: 900;
+}
+
+.food-header span {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #5a5146;
+  font-weight: 700;
+}
+
+.restaurant-card {
+  background: #eee7da;
+  box-shadow: 0 12px 28px rgba(35, 28, 20, 0.08);
+  overflow: hidden;
+}
+
+.restaurant-photo {
+  width: 100%;
+  height: 230px;
+  background: #ddd;
+}
+
+.restaurant-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.restaurant-info {
+  padding: 26px 24px 28px;
+}
+
+.restaurant-tag {
+  margin: 0 0 14px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #9b9285;
+  font-weight: 900;
+}
+
+.restaurant-info h2 {
+  margin: 0 0 24px;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -1.5px;
+  font-weight: 900;
+}
+
+.info-block {
+  margin-bottom: 18px;
+}
+
+.info-block strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #151515;
+  font-weight: 900;
+}
+
+.info-block p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5a5146;
+  font-weight: 700;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 9px;
+  margin-top: 26px;
+}
+
+.button-grid button,
+.button-grid a {
+  width: 100%;
+  padding: 15px 10px;
+  border: 1.5px solid rgba(0, 0, 0, 0.32);
+  background: rgba(255, 255, 255, 0.35);
+  color: #151515;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.button-grid button:active,
+.button-grid a:active {
+  background: #151515;
+  color: white;
+}
