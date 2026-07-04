@@ -4,9 +4,9 @@
 
 body {
   margin: 0;
-  background: #f3efe6;
-  color: #151515;
-  font-family: Arial, "Noto Sans KR", sans-serif;
+  background: #f4f1ea;
+  color: #111;
+  font-family: Arial, Helvetica, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
 }
 
 a {
@@ -14,243 +14,113 @@ a {
   text-decoration: none;
 }
 
-.page {
-  max-width: 1180px;
+.mobile-page {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 6px;
+  padding: 4px 8px 28px;
 }
 
-/* 위쪽 메인 사진 */
-.hero {
+/* 사진 카드 */
+.photo-card {
   position: relative;
-  height: 430px;
+  width: 100%;
+  height: 286px;
   overflow: hidden;
   background: #111;
 }
 
-.hero img {
+.photo-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
 }
 
-/* 사진 어둡게 */
-.hero::after {
+.photo-card::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,0.1),
-    rgba(0,0,0,0.72)
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.68)
   );
 }
 
-.hero-text {
+.photo-text {
   position: absolute;
-  left: 48px;
-  bottom: 34px;
+  left: 12px;
+  bottom: 16px;
   z-index: 2;
   color: white;
 }
 
-.hero-text p {
-  margin: 0 0 8px;
-  font-size: 13px;
-  letter-spacing: 9px;
+.photo-text p {
+  margin: 0 0 5px;
+  font-size: 10px;
+  letter-spacing: 3px;
   font-weight: 900;
 }
 
-.hero-text h1 {
+.photo-text h1 {
   margin: 0;
-  font-size: 62px;
-  line-height: 0.9;
-  letter-spacing: -3px;
+  font-size: 31px;
+  line-height: 1;
+  letter-spacing: -1.5px;
   font-weight: 900;
 }
 
-/* 아래 카드 3개 */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 24px;
-}
-
-.card {
-  min-height: 320px;
-  padding: 42px 38px;
-  background: #f8f5ee;
+/* Daily Archive 카드 */
+.archive-card {
+  margin-top: 14px;
+  min-height: 236px;
+  padding: 36px 28px 28px;
+  background: #d8cfbd;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* 왼쪽 로고 카드 */
-.logo-card h2 {
-  margin: 28px 0 12px;
-  font-size: 58px;
-  line-height: 0.95;
-  letter-spacing: -4px;
-  font-weight: 900;
-}
-
-.logo-card p {
-  margin: 0;
-  font-size: 13px;
-  color: #65615b;
-  font-weight: 800;
-}
-
-/* 가운데 카드 */
-.archive-card {
-  background: #d8cfbd;
+.diamond {
+  width: 18px;
+  height: 18px;
+  background: #9f9f9f;
+  transform: rotate(45deg);
+  margin-bottom: 28px;
 }
 
 .archive-card h2 {
-  margin: 26px 0 14px;
-  font-size: 52px;
-  line-height: 0.88;
-  letter-spacing: -4px;
+  margin: 0;
+  font-size: 39px;
+  line-height: 0.86;
+  letter-spacing: -3px;
   font-weight: 900;
 }
 
-.archive-card p {
-  margin: 0;
-  font-size: 14px;
+.archive-sub {
+  margin: 16px 0 0;
+  font-size: 12px;
   color: #4f4a42;
   font-weight: 800;
 }
 
-.mini-menu {
+.category-menu {
   display: flex;
-  gap: 10px;
-  margin-top: 32px;
+  gap: 8px;
+  margin-top: 26px;
 }
 
-.mini-menu a {
-  padding: 8px 15px;
-  border: 1px solid rgba(0,0,0,0.25);
-  font-size: 13px;
+.category-menu a {
+  padding: 7px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  font-size: 12px;
   font-weight: 800;
-  transition: 0.2s;
 }
 
-.mini-menu a:hover {
-  background: #151515;
+.category-menu a:hover {
+  background: #111;
   color: white;
-}
-
-/* 오른쪽 정보 카드 */
-.info-card {
-  justify-content: flex-start;
-}
-
-.label {
-  margin: 0 0 42px;
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: #c2b28e;
-  font-weight: 900;
-}
-
-.info-card h2 {
-  margin: 0 0 26px;
-  font-size: 52px;
-  letter-spacing: -4px;
-  font-weight: 900;
-}
-
-.info-card h3 {
-  margin: 0;
-  font-size: 18px;
-  line-height: 1.55;
-  font-weight: 900;
-}
-
-.info-row {
-  display: flex;
-  gap: 44px;
-  margin-top: 44px;
-}
-
-.info-row strong {
-  display: block;
-  margin-bottom: 9px;
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.info-row p {
-  margin: 0;
-  font-size: 12px;
-  color: #65615b;
-}
-
-/* 다이아몬드 */
-.diamond {
-  width: 22px;
-  height: 22px;
-  transform: rotate(45deg);
-}
-
-.diamond.dark {
-  background: #11202a;
-}
-
-.diamond.gray {
-  background: #9f9f9f;
-}
-
-/* 카드 hover */
-.logo-card,
-.archive-card {
-  transition: 0.25s ease;
-}
-
-.logo-card:hover,
-.archive-card:hover {
-  transform: translateY(-6px);
-}
-
-/* 모바일 */
-@media (max-width: 850px) {
-  .page {
-    padding: 0;
-  }
-
-  .hero {
-    height: 330px;
-  }
-
-  .hero-text {
-    left: 24px;
-    bottom: 28px;
-  }
-
-  .hero-text p {
-    font-size: 11px;
-    letter-spacing: 5px;
-  }
-
-  .hero-text h1 {
-    font-size: 44px;
-  }
-
-  .card-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    margin: 14px;
-  }
-
-  .card {
-    min-height: 260px;
-  }
-
-  .logo-card h2,
-  .archive-card h2,
-  .info-card h2 {
-    font-size: 46px;
-  }
 }
