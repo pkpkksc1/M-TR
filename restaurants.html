@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>맛집 | M-TR</title>
-  <link rel="stylesheet" href="./style.css?v=33">
+  <link rel="stylesheet" href="./style.css?v=34">
 </head>
 <body>
 
@@ -15,19 +15,23 @@
       <a href="index.html" class="back-link">← Home</a>
       <p>SUZHOU RESTAURANT</p>
       <h1>맛집 기록</h1>
-      <span>쑤저우에서 가보고 싶은 곳과 좋았던 식당을 모아두는 공간</span>
+      <span>
+        쑤저우에서 가보고 싶은 곳과<br>
+        좋았던 식당을 모아두는 공간
+      </span>
     </header>
 
+    <!-- 맛집 01 -->
     <section class="restaurant-card">
 
       <div class="restaurant-photo">
-        <img src="images/f1.jpg" alt="맛집 대표사진">
+        <img src="images/f1.JPG" alt="맛집 대표사진">
       </div>
 
       <div class="restaurant-info">
         <p class="restaurant-tag">RESTAURANT 01</p>
 
-        <h2 id="restaurantName">
+        <h2 id="restaurantName1">
           破店肥哈·海鲜·烧烤<br>
           <span class="small-name">(苏州首店)</span>
         </h2>
@@ -39,13 +43,13 @@
 
         <div class="info-block">
           <strong>대표메뉴</strong>
-          <p id="restaurantMenu">[중식] 양꼬치, 조개 / 羊肉串 · 蛤蜊</p>
+          <p id="restaurantMenu1">[중식] 양꼬치, 조개 / 羊肉串 · 蛤蜊</p>
           <p class="pinyin">Yángròu Chuàn · Gélí</p>
         </div>
 
         <div class="info-block">
           <strong>주소</strong>
-          <p id="restaurantAddress">苏州工业园区新未来花园22幢108室</p>
+          <p id="restaurantAddress1">苏州工业园区新未来花园22幢108室</p>
           <p class="pinyin">
             Sūzhōu Gōngyè Yuánqū<br>
             Xīn Wèilái Huāyuán 22 Zhuàng 108 Shì
@@ -53,8 +57,51 @@
         </div>
 
         <div class="button-grid">
-          <button onclick="copyText('restaurantName')">이름 복사</button>
-          <button onclick="copyText('restaurantAddress')">주소 복사</button>
+          <button onclick="copyText('restaurantName1')">이름 복사</button>
+          <button onclick="copyText('restaurantAddress1')">주소 복사</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 맛집 02 -->
+    <section class="restaurant-card">
+
+      <div class="restaurant-photo">
+        <img src="images/f2.JPG" alt="맛집 대표사진">
+      </div>
+
+      <div class="restaurant-info">
+        <p class="restaurant-tag">RESTAURANT 02</p>
+
+        <h2 id="restaurantName2">
+          楠波炭炉鸡煲馆<br>
+          <span class="small-name">(园区湖东店)</span>
+        </h2>
+
+        <p class="pinyin">
+          Nánbō Tànlú Jībāo Guǎn<br>
+          Yuánqū Húdōng Diàn
+        </p>
+
+        <div class="info-block">
+          <strong>대표메뉴</strong>
+          <p id="restaurantMenu2">[중식] 닭육수 훠궈 / 鸡汤火锅</p>
+          <p class="pinyin">Jītāng Huǒguō</p>
+        </div>
+
+        <div class="info-block">
+          <strong>주소</strong>
+          <p id="restaurantAddress2">苏州工业园区苏州大道东278号领汇商务广场3幢102室</p>
+          <p class="pinyin">
+            Sūzhōu Gōngyè Yuánqū Sūzhōu Dàdào Dōng<br>
+            278 Hào Lǐnghuì Shāngwù Guǎngchǎng 3 Zhuàng 102 Shì
+          </p>
+        </div>
+
+        <div class="button-grid">
+          <button onclick="copyText('restaurantName2')">이름 복사</button>
+          <button onclick="copyText('restaurantAddress2')">주소 복사</button>
         </div>
       </div>
 
